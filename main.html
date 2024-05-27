@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CGPA Calculator</title>
+    <script>
+        // Function to set a cookie
+        function setCookie(name, value, days) {
+            const d = new Date();
+            d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
+            const expires = "expires=" + d.toUTCString();
+            document.cookie = name + "=" + value + ";" + expires + ";path=/";
+        }
+
+        // Function to get a cookie
+        function getCookie(name) {
+            const cname = name + "=";
+            const decodedCookie = decodeURIComponent(document.cookie);
+            const ca = decodedCookie.split(';');
+            for(let i = 0; i < ca.length; i++) {
+                let c = ca[i];
+                while (c.charAt(0) === ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(cname) === 0) {
+                    return c.substring(cname.length, c.length);
+                }
+            }
+            return "";
+        }
+
+        // Function to load input fields based on the number of semesters
+        function loadInputFields() {
+            const semesterCount = parseInt(document.getElementById("semesterCount").value);
+            if (isNaN(semesterCount) || semesterCount <= 0) {
+                alert("Please enter a valid number of semesters.");
+                return;
+            }
+            setCookie("semesterCount", semesterCount, 365);
+            const container = document.getElementById("inputContainer");
+            container.innerHTML = "";
+
+            for (let i = 1; i <= semesterCount; i++) {
+                const row = document.createElement("div");
+                row.classList.add("row");
+                row.innerHTML = `
+                    <div>Semester ${i}</div>
+                    <div>
+                        <label for="semester${i}">Grade:</label>
+                        <input type="number" id="semester${i}" step="0.01" min="0" max="10" required>
+                    </div>
+                    <div>
+                        <label for="credits${i}">Credits:</label>
+                        <input type="number" id="credits${i}" step="0.1" min="0" required>
+                    </div>
+                `;
+                container.appendChild(row);
+            }
+
+            loadCookieData(semesterCount);
+        }
+
+        // Function to calculate CGPA
+        function calculateCGPA() {
+            const semesterCount = parseInt(document.getElementById("semesterCount").value);
+            let totalCredits = 0;
+            let totalPoints = 0;
+
+            for (let i = 1; i <= semesterCount; i++) {
+                const grade = parseFloat(document.getElementById("semester" + i).value);
+                const credits = parseFloat(document.getElementById("credits" + i).value);
+                if (!isNaN(grade) && !isNaN(credits)) {
+                    totalCredits += credits;
+                    totalPoints += grade * credits;
+                }
+            }
+
+            const cgpa = (totalPoints / totalCredits).toFixed(2);
+            document.getElementById("cgpa").innerText = cgpa ? "Your CGPA is: " + cgpa : "Please enter valid data";
+            setCookieData(semesterCount);
+        }
+
+        // Function to set cookie data
+        function setCookieData(semesterCount) {
+            for (let i = 1; i <= semesterCount; i++) {
+                setCookie("semester" + i, document.getElementById("semester" + i).value, 365);
+                setCookie("credits" + i, document.getElementById("credits" + i).value, 365);
+            }
+        }
+
+        // Function to load cookie data
+        function loadCookieData(semesterCount) {
+            for (let i = 1; i <= semesterCount; i++) {
+                const semester = getCookie("semester" + i);
+                const credits = getCookie("credits" + i);
+                if (semester) {
+                    document.getElementById("semester" + i).value = semester;
+                }
+                if (credits) {
+                    document.getElementById("credits" + i).value = credits;
+                }
+            }
+        }
+
+        // Load initial cookie data on page load
+        window.onload = function() {
+            const semesterCount = getCookie("semesterCount");
+            if (semesterCount) {
+                document.getElementById("semesterCount").value = semesterCount;
+                loadInputFields();
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>CGPA Calculator</h1>
+    <div>
+        <label for="semesterCount">Enter number of semesters:</label>
+        <input type="number" id="semesterCount" min="1" required>
+        <button onclick="loadInputFields()">Submit</button>
+    </div>
+    <form onsubmit="calculateCGPA(); return false;">
+        <div id="inputContainer"></div>
+        <button type="submit">Calculate CGPA</button>
+    </form>
+    <p id="cgpa">Your CGPA is: </p>
+</body>
+</html>
