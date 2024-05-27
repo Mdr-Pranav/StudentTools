@@ -116,9 +116,9 @@
                 const row = document.createElement("div");
                 row.classList.add("row");
                 row.innerHTML = `
-                    <div>Semester ${i}</div>
+                    <Br><div>Sem ${i}</div>
                     <div>
-                        <label for="semester${i}">Grade:</label>
+                        <label for="semester${i}">SGPA :</label>
                         <input type="number" id="semester${i}" step="0.01" min="0" max="10" required>
                     </div>
                     <div>
@@ -188,11 +188,11 @@
     <h1>CGPA Calculator</h1>
     <center><div>
         <label for="semesterCount">Enter number of semesters:</label>
-        <input type="number" id="semesterCount" min="1" required>
+        <input type="number" id="semesterCount" min="1" required><br><br>
         <button onclick="loadInputFields()">Submit</button>
     </div>
     <form onsubmit="calculateCGPA(); return false;">
-        <div id="inputContainer"></div>
+        <div id="inputContainer"></div><br>
         <button type="submit">Calculate CGPA</button>
     </form>
     <p id="cgpa">Your CGPA is: </p></center>
