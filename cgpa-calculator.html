@@ -6,10 +6,27 @@
     <link rel=icon type="image/x-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAAAXNSR0IArs4c6QAAASBJREFUWEftmLFKA0EQhr8ftNdeSKOtkNa8jkEhD6G+gyAEfBt7i9QhnUh8g1hMOLg7ZE2yu2SEu3On25vZf/75Z5ZjV3TM1DE+9IOQmV0Bc2ACnDqr+A28AVNJyxD7l0JmNgLegXNnIiHcF3At6fOnYxehGfD8x2Qa+DtJVSda20XoEXioI54kVWs3M7OD+IWQm0IBUG4L29YXQnukKwrFZuofKBSTINXvdspSE8bihktoX2Ve3xtlk/9lXondWtY5QrFhDf25BWS3rBBqFMiV2is+u2Veicspiw2/m0KxRKn+QRC6B15SKz4yLumieAEsgLMjk8W2r4GxpI+DN9fKaWaXwCtwA5zEkDP9m/qx4VbSKtzbj+eYzIpdwzun0BZI1Zs0b+UWAgAAAABJRU5ErkJggg=="/>
     <title>CGPA Calculator</title>
     <style>
-      body {
+       @keyframes color {
+            0%{
+                background-position: 0% 50%;
+            }
+            50%{
+                background-position: 100% 50%;
+            }
+            100%{
+                background-position: 0% 50%;
+            }
+        }
+        body {
+            background:linear-gradient(45deg,#8cf4f8, #367bdc, #ff9090, #9fff7f);
+            background-size:300% 300%;
+            animation:color 12s ease-in-out infinite;
             font-family: Arial, sans-serif;
-            background-color: #c8fded;
+            background-color: #cafcc6;
             color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             height: 100vh;
             margin: 0;
         }
@@ -18,8 +35,9 @@
             background-color: #fff;
             border-radius: 10px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            max-width: 600px;
+            padding: 40px;
+            text-align: center;
+            max-width: 400px;
             width: 100%;
         }
 
@@ -188,7 +206,7 @@
 <body>
     <!-- Add this to the top of the body in cgpa-calculator.html -->
 <a href="index.html" style="text-decoration: none; color: #007bff; font-size: 16px;">&larr; Home</a>
-
+   <div class="container">
     <h1>CGPA Calculator</h1>
     <center><div>
         <label for="semesterCount">Enter number of semesters:</label>
@@ -200,5 +218,6 @@
         <button type="submit">Calculate CGPA</button>
     </form>
     <p id="cgpa">Your CGPA is: </p></center>
+   </div>
 </body>
 </html>
