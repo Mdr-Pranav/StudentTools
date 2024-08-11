@@ -6,7 +6,22 @@
      <link rel=icon type="image/x-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAAAXNSR0IArs4c6QAAAbZJREFUWEft1zsvBUEUwPH/rXwCj1B4NEoSHYnCV1Dp9VpREFHcQuUDqDW+gFaCTqjQeCXiEb1EgXtk5mYyZnZmZ3blkp1mi53Hb8+ZzJxt0WOt1WMe/iVoEtgFPoFl4Con6rkRmgCOgUGFeAZmgetUVA7IxmhDFioVJGk6BAaU4k49R9XzBZhPSV8KyI7MAzCnIEfASE76yoJ8GDNCWagyoBBG7yFJWzIqFhSLyUbFgMpislAhUComGVUEysUkoXygqjClUS6QfejJpOPAbep1oMaNATfGHM7D0wb5roPQXou1ygVsth/XjL3QJSARsltdIFnnHJjWC9oLnQFTvww6BWZ8IMnzEtDXqW82DJgN7wcWgSFPrp6AfeDVem+mbBN462RkD7j3gczx5mATJBE8MGog3/4R1AJwYXTwzdntUrQ3fIN9aXXBTlTBpt/VAvqAbi0uYXc1ne53lf5aQcGvVPW1a1sEx6akLDhpAyo4DkJ7JRjdJmWh6P6pCMlJq/9IY2/z2H6PwLCrc1GE2sBq7Aol+20B62VBgl0DVgC5TKto8lO5A2z7JquqzqkC+z1HAwqF8guOaIQlieAikQAAAABJRU5ErkJggg=="/>
     <title>Home Page</title>
     <style>
+
+        @keyframes color {
+            0%{
+                background-position: 0% 50%;
+            }
+            50%{
+                background-position: 100% 50%;
+            }
+            100%{
+                background-position: 0% 50%;
+            }
+        }
         body {
+            background:linear-gradient(45deg,#8cf4f8, #367bdc, #ff9090, #9fff7f);
+            background-size:300% 300%;
+            animation:color 12s ease-in-out infinite;
             font-family: Arial, sans-serif;
             background-color: #cafcc6;
             color: #333;
