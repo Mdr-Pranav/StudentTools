@@ -32,6 +32,7 @@
         }
 
         .container {
+            margin-top: 8%;
             background-color: #fff;
             border-radius: 10px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
@@ -70,21 +71,20 @@
 
         button {
             display: block;
-            width: 30%;
+            width: 25%;
             padding: 10px;
-            background-color: #2890ff;
+            background-color: #8ac3ff;
             color: #fff;
             border-color: #0063cd;
             border-radius: 10px;
-            font-size: 16px;
+            font-size: 12px;
             cursor: pointer;
             transition: background-color 0.3s ease;
-            
         }
 
          button:hover {
-            background-color: #0056b3;
-            transform: scale(1.05);
+            background-color: #16c0ac;
+            transform: scale(1.2);
         }
 
         #cgpa {
@@ -205,8 +205,8 @@
 </head>
 <body>
     <!-- Add this to the top of the body in cgpa-calculator.html -->
-<a href="index.html" style="text-decoration: none; color: #007bff; font-size: 16px;">&larr; Home</a>
-   <div class="container">
+    <div class="container">
+    <a href="index.html" style="text-decoration: none; color: #007bff; font-size: 16px; margin-left :-420px;">&larr;</a>
     <h1>CGPA Calculator</h1>
     <center><div>
         <label for="semesterCount">Enter number of semesters:</label>
@@ -215,8 +215,8 @@
     </div>
     <form onsubmit="calculateCGPA(); return false;">
         <div id="inputContainer"></div><br>
-        <p id="cgpa">Your CGPA is: </p></center>
-        <button type="submit">Calculate CGPA</button>
+        <p id="cgpa">Your CGPA is: </p>
+        <button type="submit">Calculate CGPA</button></center>
     </form>
    </div>
 </body>
