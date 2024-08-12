@@ -139,7 +139,7 @@
                     <div>
                         <label for="semester${i}">SGPA :</label>
                         <input type="number" id="semester${i}" step="0.01" min="0" max="10" required>
-                    </div>
+                    </div><br>
                     <div>
                         <label for="credits${i}">Credits:</label>
                         <input type="number" id="credits${i}" step="0.1" min="0" required>
@@ -210,7 +210,7 @@
     <h1>CGPA Calculator</h1>
     <center><div>
         <label for="semesterCount">Enter number of semesters:</label>
-        <input type="number" id="semesterCount" min="1" required><br><br>
+        <input type="number" id="semesterCount" min="1" max="10" required><br><br>
         <button onclick="loadInputFields()">Submit</button>
     </div>
     <form onsubmit="calculateCGPA(); return false;">
