@@ -127,6 +127,10 @@
                 alert("Please enter a valid number of semesters");
                 return;
             }
+            if (semesterCount >= 11) {
+                alert("Please enter a valid number of semesters");
+                return;
+            }
             setCookie("semesterCount", semesterCount, 365);
             const container = document.getElementById("inputContainer");
             container.innerHTML = "";
