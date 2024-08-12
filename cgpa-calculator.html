@@ -123,7 +123,7 @@
         // Function to load input fields based on the number of semesters
         function loadInputFields() {
             const semesterCount = parseInt(document.getElementById("semesterCount").value);
-            if (isNaN(semesterCount) || semesterCount <= 0) {
+            if (isNaN(semesterCount) || semesterCount <= 0 || semestercount >10) {
                 alert("Please enter a valid number of semesters.");
                 return;
             }
