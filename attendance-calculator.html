@@ -9,11 +9,56 @@
     <link rel="stylesheet" href="pranav.css"/>
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
+    <style>
+        @keyframes color {
+            0%{
+                background-position: 0% 50%;
+            }
+            50%{
+                background-position: 100% 50%;
+            }
+            100%{
+                background-position: 0% 50%;
+            }
+        }
+        
+        body {
+            background:linear-gradient(45deg,#8cf4f8, #367bdc, #ff9090, #9fff7f);
+            background-size:300% 300%;
+            animation:color 12s ease-in-out infinite;
+            font-family: Arial, sans-serif;
+            background-color: #cafcc6;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+/*             height: 100vh; */
+            margin: 0;
+        }
+
+        
+        .container {
+            margin-top: 8%;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+    </style>
 <script src="loginpw.js"></script>
 
 <body>
-    <a href="index.html" style="text-decoration: none; color: #007bff; font-size: 16px;">&larr; Home</a>
-    <center><p style="padding-top: 130px;">
+    <div class="container">
+    <a href="index.html" style="text-decoration: none; color: #007bff; font-size: 16px; margin-left :-420px;">&larr;</a>
+    <center><p>
     <strong><i><h2 class="pop1">Attendance&nbsp;Calculator</h2></i></strong>
     <!-- <a href="" terget="_blank"><button class="btn elon button2"><strong>Go</strong></button></a> -->
     <!-- <form oninput="x.value=parseInt(a.value)+parseInt(b.value)"> -->
@@ -37,14 +82,9 @@
         <p id="output"><strong>-~The answer comes here~-</strong></p>
     </p>
     </center>
-
-    <!--socials-->
-<!-- <div class="d2"style="position:absolute;"><b >Creator<i class='bx bxs-paint'style=color:black;></i>:</b></div> -->
-<div class="socl1 sclani" style="position:absolute">
-<a href="https://www.instagram.com/m_pnv_/" target="_blank"><i class='bx bxl-instagram social bx-md' style="color:white"></i></a>
-<a href="https://www.linkedin.com/in/pranav-mudar/" target="_blank"><i class='bx bxl-linkedin-square social bx-md' style="color:rgb(255, 255, 255)"></i></a>
-<a href="https://twitter.com/Pranav0530" target="_blank"><i class='bx bxl-twitter social bx-md' style="color:white"></i></a>
 </div>
+    
+
 
 </body>
 </html>
