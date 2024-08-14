@@ -3,14 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Attendance Calc</title>
+    <title>Attendance-Calc</title>
     <link rel=icon type="image/x-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAAAXNSR0IArs4c6QAAASBJREFUWEftmLFKA0EQhr8ftNdeSKOtkNa8jkEhD6G+gyAEfBt7i9QhnUh8g1hMOLg7ZE2yu2SEu3On25vZf/75Z5ZjV3TM1DE+9IOQmV0Bc2ACnDqr+A28AVNJyxD7l0JmNgLegXNnIiHcF3At6fOnYxehGfD8x2Qa+DtJVSda20XoEXioI54kVWs3M7OD+IWQm0IBUG4L29YXQnukKwrFZuofKBSTINXvdspSE8bihktoX2Ve3xtlk/9lXondWtY5QrFhDf25BWS3rBBqFMiV2is+u2Veicspiw2/m0KxRKn+QRC6B15SKz4yLumieAEsgLMjk8W2r4GxpI+DN9fKaWaXwCtwA5zEkDP9m/qx4VbSKtzbj+eYzIpdwzun0BZI1Zs0b+UWAgAAAABJRU5ErkJggg=="/>
-
-    <link rel="stylesheet" href="pranav.css"/>
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
     <style>
-        @keyframes color {
+       @keyframes color {
             0%{
                 background-position: 0% 50%;
             }
@@ -21,7 +19,6 @@
                 background-position: 0% 50%;
             }
         }
-        
         body {
             background:linear-gradient(45deg,#8cf4f8, #367bdc, #ff9090, #9fff7f);
             background-size:300% 300%;
@@ -36,9 +33,8 @@
             margin: 0;
         }
 
-        
         .container {
-            margin-top: 5%;
+            margin-top: 8%;
             background-color: #fff;
             border-radius: 10px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
@@ -47,10 +43,57 @@
             max-width: 400px;
             width: 100%;
         }
-        
+
         h1 {
             text-align: center;
             color: #333;
+        }
+
+        .input-group {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .input-group label {
+            flex: 1;
+            margin-right: 10px;
+        }
+
+        .input-group input {
+            flex: 2;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .input-group input[type="number"] {
+            max-width: 100px;
+        }
+
+        button {
+            display: block;
+            width: 25%;
+            padding: 10px;
+            background-color: #8ac3ff;
+            color: #fff;
+            border-color: #0063cd;
+            border-radius: 10px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+         button:hover {
+            background-color: #16c0ac;
+            transform: scale(1.2);
+        }
+
+        #cgpa {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
         }
     </style>
 <script src="loginpw.js"></script>
