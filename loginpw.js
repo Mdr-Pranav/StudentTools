@@ -3,7 +3,8 @@ function calculateAttendance() {
     var totalClasses = parseFloat(document.getElementById('totalClasses').value);
     var percentage = parseFloat(document.getElementById('percentage').value);
     const a = percentage; // Change this to your desired attendance percentage
-
+    console.log(a)
+    
     let outputMessage = "";
 
     if (totalClasses < attendedClasses) {
