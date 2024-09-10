@@ -1,7 +1,8 @@
 function calculateAttendance() {
     var attendedClasses = parseFloat(document.getElementById('attendedClasses').value);
     var totalClasses = parseFloat(document.getElementById('totalClasses').value);
-    const a = 75; // Change this to your desired attendance percentage
+    var percentage = parseFloat(document.getElementById('percentage').value);
+    const a = percentage; // Change this to your desired attendance percentage
 
     let outputMessage = "";
 
