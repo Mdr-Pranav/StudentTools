@@ -12,6 +12,13 @@ function calculateAttendance() {
         return;
     }
 
+    if (attendedClasses!= totalClasses){
+        if(a =100){
+            document.getElementById('output').innerHTML = outputMessage + 'Erri....';
+            return;
+        }
+    }
+
     const z = attendedClasses / totalClasses;
 
     if (z >= a / 100) {
