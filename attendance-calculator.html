@@ -33,6 +33,40 @@
             margin: 0;
         }
 
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: #b6b6b6;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        .header a {
+            color: white;
+            text-decoration: none;
+            font-size: 20px;
+        }
+
+        .header button {
+            background-color: #ff4c4c;
+            color: white;
+            border: none;
+            width:5%;
+            padding: 8px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .header button:hover {
+            background-color: #ff1a1a;
+        }
+
         .container {
             margin-top: 8%;
             background-color: #fff;
@@ -95,14 +129,52 @@
             font-size: 20px;
             font-weight: bold;
         }
+
+         /* Info icon styling */
+         .info-icon {
+            font-size: 16px;
+            margin-left: 10px;
+            cursor: pointer;
+            position: relative;
+            display: inline-block;
+        }
+
+        .info-icon:hover .tooltip-text {
+            display: block;
+        }
+
+        .tooltip-text {
+            display: none;
+            position: absolute;
+            top: 25px;
+            left: 0;
+            background-color: rgba(0, 0, 0, 0.75);
+            color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            width: 250px;
+            z-index: 1000;
+            font-size: 12px;
+        }
     </style>
 <script src="loginpw.js"></script>
 
 <body>
+    <div class="header">
+        <a href="index.html" style="color: rgb(0, 0, 0);">&#8592;</a>
+        <h3 style="color:black"><b>Attendance</b></h3>
+        <a></a>
+    </div>
     <div class="container">
-    <a href="/Calculators/" style="text-decoration: none; color: #007bff; font-size: 16px; margin-left :-420px;">&larr;</a>
+    <!-- <a href="/Calculators/" style="text-decoration: none; color: #007bff; font-size: 16px; margin-left :-420px;">&larr;</a> -->
     <center><p>
-    <strong><i><h2 class="pop1">Attendance&nbsp;Calculator</h2></i></strong>
+    <strong><i><h2 class="pop1">Attendance&nbsp;Calculator
+        <span class="info-icon">ℹ️
+            <span class="tooltip-text">
+                    This Calculator shows how many consecutive classes you can bunk from now till the given limit
+            </span>
+        </span>
+    </h2></i></strong>
     <!-- <a href="" terget="_blank"><button class="btn elon button2"><strong>Go</strong></button></a> -->
     <!-- <form oninput="x.value=parseInt(a.value)+parseInt(b.value)"> -->
       <!-- <input type="number" id="a" value="50"> -->
