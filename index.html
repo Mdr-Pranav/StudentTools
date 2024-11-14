@@ -32,6 +32,41 @@
             margin: 0;
         }
 
+        
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: #b6b6b6;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        .header a {
+            color: white;
+            text-decoration: none;
+            font-size: 20px;
+        }
+
+        .header button {
+            background-color: #ff4c4c;
+            color: white;
+            border: none;
+            width:5%;
+            padding: 8px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .header button:hover {
+            background-color: #ff1a1a;
+        }
+
         .container {
             background-color: #fff;
             border-radius: 10px;
@@ -68,6 +103,11 @@
     </style>
 </head>
 <body>
+    <div class="header">
+        <a></a>
+        <h3 style="color:black"><b>HOME</b></h3>
+        <a></a>
+    </div>
     <div class="container">
         <h1>Welcome to the Student Tools</h1>
         <a href="cgpa-calculator.html" class="button">CGPA Calculator</a>

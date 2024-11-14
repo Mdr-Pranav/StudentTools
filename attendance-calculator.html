@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Attendance-Calc</title>
     <link rel=icon type="image/x-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAAAXNSR0IArs4c6QAAASBJREFUWEftmLFKA0EQhr8ftNdeSKOtkNa8jkEhD6G+gyAEfBt7i9QhnUh8g1hMOLg7ZE2yu2SEu3On25vZf/75Z5ZjV3TM1DE+9IOQmV0Bc2ACnDqr+A28AVNJyxD7l0JmNgLegXNnIiHcF3At6fOnYxehGfD8x2Qa+DtJVSda20XoEXioI54kVWs3M7OD+IWQm0IBUG4L29YXQnukKwrFZuofKBSTINXvdspSE8bihktoX2Ve3xtlk/9lXondWtY5QrFhDf25BWS3rBBqFMiV2is+u2Veicspiw2/m0KxRKn+QRC6B15SKz4yLumieAEsgLMjk8W2r4GxpI+DN9fKaWaXwCtwA5zEkDP9m/qx4VbSKtzbj+eYzIpdwzun0BZI1Zs0b+UWAgAAAABJRU5ErkJggg=="/>
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <!-- <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'> -->
 </head>
+<script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
     <style>
        @keyframes color {
             0%{
@@ -31,6 +32,40 @@
             align-items: center;
 /*             height: 100vh; */
             margin: 0;
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: #b6b6b6;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        .header a {
+            color: white;
+            text-decoration: none;
+            font-size: 20px;
+        }
+
+        .header button {
+            background-color: #ff4c4c;
+            color: white;
+            border: none;
+            width:5%;
+            padding: 8px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .header button:hover {
+            background-color: #ff1a1a;
         }
 
         .container {
@@ -95,14 +130,52 @@
             font-size: 20px;
             font-weight: bold;
         }
+
+         /* Info icon styling */
+         .info-icon {
+            font-size: 16px;
+            margin-left: 10px;
+            cursor: pointer;
+            position: relative;
+            display: inline-block;
+        }
+
+        .info-icon:hover .tooltip-text {
+            display: block;
+        }
+
+        .tooltip-text {
+            display: none;
+            position: absolute;
+            top: 25px;
+            left: 0;
+            background-color: rgba(0, 0, 0, 0.75);
+            color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            width: 250px;
+            z-index: 1000;
+            font-size: 12px;
+        }
     </style>
 <script src="loginpw.js"></script>
 
 <body>
+    <div class="header">
+        <a href="index.html" style="color: rgb(0, 0, 0);">&#8592;</a>
+        <h3 style="color:black"><b>Attendance</b></h3>
+        <a></a>
+    </div>
     <div class="container">
-    <a href="/Calculators/" style="text-decoration: none; color: #007bff; font-size: 16px; margin-left :-420px;">&larr;</a>
+    <!-- <a href="/Calculators/" style="text-decoration: none; color: #007bff; font-size: 16px; margin-left :-420px;">&larr;</a> -->
     <center><p>
-    <strong><i><h2 class="pop1">Attendance&nbsp;Calculator</h2></i></strong>
+    <strong><i><h2 class="pop1">Attendance&nbsp;Calculator
+        <span class="info-icon"><box-icon name='info-circle'></box-icon>
+            <span class="tooltip-text">
+                    This Calculator shows how many consecutive classes you can bunk from now till the given limit
+            </span>
+        </span>
+    </h2></i></strong>
     <!-- <a href="" terget="_blank"><button class="btn elon button2"><strong>Go</strong></button></a> -->
     <!-- <form oninput="x.value=parseInt(a.value)+parseInt(b.value)"> -->
       <!-- <input type="number" id="a" value="50"> -->
@@ -114,7 +187,7 @@
         <div >
           <label for='attendedClasses'>Classes attended : </label><input type="number" id="attendedClasses" required ><br><br>
           <label for='totalClasses'>Total classes till now : <input type="number" id="totalClasses" required ><br><br>
-          <label for='totalClasses'>Percentage : <input type="number" id="percentage" required >
+          <label for='totalClasses'>Percentage : <input type="number" id="percentage" required ><br><br>
         </div>
         <br>
         <div>
