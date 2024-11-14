@@ -67,7 +67,7 @@
         }
 
         .container {
-            margin-top: 100px; /* To avoid overlap with fixed header */
+            position: relative;
             background-color: #fff;
             border-radius: 10px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
@@ -75,6 +75,10 @@
             text-align: center;
             max-width: 400px;
             width: 100%;
+            display: flex;
+            flex-direction: column;
+            max-height: 80vh; /* Add this to prevent it from exceeding the viewport height */
+            overflow-y: auto; /* Enable scroll if content exceeds height */
         }
 
         h1 {
@@ -117,7 +121,7 @@
             transition: background-color 0.3s ease;
         }
 
-         button:hover {
+        button:hover {
             background-color: #16c0ac;
             transform: scale(1.2);
         }
@@ -144,9 +148,9 @@
 
         .tooltip-text {
             display: none;
-            position: absolute;
+            position:absolute;
             top: 25px;
-            left: 0;
+            right: -80px;
             background-color: rgba(0, 0, 0, 0.75);
             color: #fff;
             padding: 10px;
@@ -214,105 +218,82 @@
                 const row = document.createElement("div");
                 row.classList.add("row");
                 row.innerHTML = `
-                    <Br><div><b>Sem ${i}</b></div>
+                    <Br><div><b>Sem ${i}</b></div><br>
                     <div>
                         <label for="semester${i}">SGPA :</label>
-                        <input type="number" id="semester${i}" step="0.01" min="0" max="10" required>
+                        <input type="number" id="semester${i}" step="0.01" min="0" max="10" placeholder="0-10">
                     </div><br>
                     <div>
                         <label for="credits${i}">Credits :</label>
-                        <input type="number" id="credits${i}" step="1" min="1" max="35" required>
-                    </div><br>
-                `;
+                        <input type="number" id="credits${i}" min="0" max="30" placeholder="Credits">
+                    </div>`;
                 container.appendChild(row);
             }
-            loadCookieData(semesterCount);
         }
 
-        // Function to calculate CGPA based on the semester SGPA and credits
+        // Calculate CGPA
         function calculateCGPA() {
-            const semesterCount = parseInt(getCookie("semesterCount"));
-            if (!semesterCount) {
-                document.getElementById("cgpa").innerText = "No semesters found. Please reload the input fields!";
+            const semesterCount = parseInt(document.getElementById("semesterCount").value);
+            if (isNaN(semesterCount) || semesterCount <= 0) {
+                document.getElementById("cgpa").innerText = "Please enter a valid number of semesters!";
                 return;
             }
 
-            let totalWeightedSgpa = 0;
             let totalCredits = 0;
-
+            let weightedSum = 0;
             for (let i = 1; i <= semesterCount; i++) {
-                const sgpa = parseFloat(document.getElementById("semester" + i).value);
-                const credits = parseInt(document.getElementById("credits" + i).value);
+                const sgpa = parseFloat(document.getElementById(`semester${i}`).value);
+                const credits = parseInt(document.getElementById(`credits${i}`).value);
 
-                if (isNaN(sgpa) || isNaN(credits)) {
-                    document.getElementById("cgpa").innerText = "Please fill in all the SGPA and credits fields!";
+                if (isNaN(sgpa) || isNaN(credits) || sgpa < 0 || sgpa > 10 || credits < 0) {
+                    document.getElementById("cgpa").innerText = "Please enter valid SGPA and Credits for all semesters!";
                     return;
                 }
 
-                totalWeightedSgpa += sgpa * credits;
+                weightedSum += sgpa * credits;
                 totalCredits += credits;
             }
 
-            const cgpa = (totalWeightedSgpa / totalCredits).toFixed(2);
-            document.getElementById("cgpa").innerText = "Your CGPA is: " + cgpa; setCookieData(semesterCount);
+            const cgpa = weightedSum / totalCredits;
+            document.getElementById("cgpa").innerText = "Your CGPA is: " + cgpa.toFixed(2);
         }
 
-        // Function to set cookie data
-        function setCookieData(semesterCount) {
-            for (let i = 1; i <= semesterCount; i++) {
-                setCookie("semester" + i, document.getElementById("semester" + i).value, 365);
-                setCookie("credits" + i, document.getElementById("credits" + i).value, 365);
-            }
-        }
-
-        // Function to load cookie data
-        function loadCookieData(semesterCount) {
-            for (let i = 1; i <= semesterCount; i++) {
-                const semester = getCookie("semester" + i);
-                const credits = getCookie("credits" + i);
-                if (semester) {
-                    document.getElementById("semester" + i).value = semester;
-                }
-                if (credits) {
-                    document.getElementById("credits" + i).value = credits;
-                }
-            }
-        }
-
-        // Load initial cookie data on page load
+        // Load initial cookie-based data
         window.onload = function() {
-            const semesterCount = getCookie("semesterCount");
-            if (semesterCount) {
-                document.getElementById("semesterCount").value = semesterCount;
+            const savedSemesterCount = getCookie("semesterCount");
+            if (savedSemesterCount) {
+                document.getElementById("semesterCount").value = savedSemesterCount;
                 loadInputFields();
             }
-        }
+        };
     </script>
 </head>
 <body>
     <div class="header">
         <a href="index.html" style="color: rgb(0, 0, 0);">&#8592;</a>
-        <h3 style="color:black"><b>CGPA</b></h3>
+        <a href="#"  style="color: rgb(0, 0, 0);">CGPA</a>
         <button onclick="resetCookies()">Reset</button>
     </div>
+
     <div class="container">
         <h1>CGPA Calculator
-            <span class="info-icon"><box-icon name='info-circle'></box-icon>
-                <span class="tooltip-text">
-                    You can enter the number of semesters and then input the SGPA and credits for each semester to calculate the CGPA.
-                </span>
+        <span class="info-icon"><box-icon name='info-circle'></box-icon>
+            <span class="tooltip-text">
+                You can enter the number of semesters and then input the SGPA and credits for each semester to calculate the CGPA.
             </span>
+        </span>
         </h1>
+        
         <div class="input-group">
-            <label for="semesterCount">Enter number of semesters:</label>
-            <input type="number" id="semesterCount" min="1" max="10" step="1" required>
+            <label for="semesterCount">Number of Semesters:</label>
+            <input type="number" id="semesterCount" min="1" max="10" placeholder="1-10">
         </div>
-        <Center>
-        <button onclick="loadInputFields()">Submit</button>
-        <div id="inputContainer"></div>
-        <br><button onclick="calculateCGPA()">Calculate CGPA</button>
-        <div id="cgpa"></div>
-        </Center>
+        <center><button onclick="loadInputFields()">Submit</button><br>
+
+        <div id="inputContainer"></div><br>
+
+        <button onclick="calculateCGPA()">Calculate CGPA</button>
+        <p id="cgpa"></p></center>
     </div>
 </body>
 </html>
