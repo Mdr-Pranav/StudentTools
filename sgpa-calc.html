@@ -5,173 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SGPA Calculator</title>
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
-    <style>
-        @keyframes color {
-            0%{
-                background-position: 0% 50%;
-            }
-            50%{
-                background-position: 100% 50%;
-            }
-            100%{
-                background-position: 0% 50%;
-            }
-        }
-        body {
-            background:linear-gradient(45deg,#8cf4f8, #367bdc, #ff9090, #9fff7f);
-            background-size:300% 300%;
-            animation:color 12s ease-in-out infinite;
-            font-family: Arial, sans-serif;
-            background-color: #cafcc6;
-            color: #333;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh; 
-            margin: 0;
-        }
+    <link rel="stylesheet" href="common.css">
 
-        .header {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background-color: #b6b6b6;
-            color: white;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 20px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
-        }
-
-        .header a {
-            color: white;
-            text-decoration: none;
-            font-size: 20px;
-        }
-
-        .header button {
-            background-color: #ff4c4c;
-            color: white;
-            border: none;
-            width:5%;
-            padding: 8px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .header button:hover {
-            background-color: #ff1a1a;
-        }
-
-        .container {
-            position: relative;
-            top:30px;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-            padding: 40px;
-            text-align: center;
-            max-width: 400px;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            max-height: 80vh; /* Add this to prevent it from exceeding the viewport height */
-            overflow-y: auto; /* Enable scroll if content exceeds height */
-        }
-
-        h1 {
-            text-align: center;
-            color: #333;
-        }
-
-        .input-group {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 15px;
-        }
-
-        .input-group label {
-            flex: 1;
-            margin-right: 10px;
-        }
-
-        .input-group input {
-            flex: 2;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-
-        .input-group input[type="number"] {
-            max-width: 100px;
-        }
-
-        button {
-            display: block;
-            width: 25%;
-            padding: 10px;
-            background-color: #8ac3ff;
-            color: #fff;
-            border-color: #0063cd;
-            border-radius: 10px;
-            font-size: 12px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        button:hover {
-            background-color: #16c0ac;
-            transform: scale(1.2);
-        }
-
-        #cgpa {
-            text-align: center;
-            margin-top: 20px;
-            font-size: 20px;
-            font-weight: bold;
-        }
-
-        /* Info icon styling */
-        .info-icon {
-            font-size: 16px;
-            margin-left: 10px;
-            cursor: pointer;
-            position: relative;
-            display: inline-block;
-        }
-
-        .info-icon:hover .tooltip-text {
-            display: block;
-        }
-
-        .tooltip-text {
-            display: none;
-            position:absolute;
-            top: 25px;
-            right: -80px;
-            background-color: rgba(0, 0, 0, 0.75);
-            color: #fff;
-            padding: 10px;
-            border-radius: 5px;
-            width: 250px;
-            z-index: 1000;
-            font-size: 12px;
-        }
-    </style>
     <script>
         // Function to set a cookie
         function setCookie(name, value, days) {
             const d = new Date();
             d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
             const expires = "expires=" + d.toUTCString();
-            document.cookie = name + "=" + value + ";" + expires + ";path=/";
+            document.cookie = "sgpa_" + name + "=" + value + ";" + expires + ";path=/";
         }
 
         // Function to get a cookie
         function getCookie(name) {
-            const cname = name + "=";
+            const cname = "sgpa_" + name + "=";
             const decodedCookie = decodeURIComponent(document.cookie);
             const ca = decodedCookie.split(';');
             for (let i = 0; i < ca.length; i++) {
@@ -186,14 +33,14 @@
             return "";
         }
 
-        // Function to delete all cookies and clear generated blocks
+        // Function to delete all SGPA cookies
         function resetCookies() {
             const cookies = document.cookie.split("; ");
             for (let i = 0; i < cookies.length; i++) {
-                const cookie = cookies[i];
-                const eqPos = cookie.indexOf("=");
-                const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
-                document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/";
+                if (cookies[i].startsWith("sgpa_")) {
+                    const name = cookies[i].split("=")[0];
+                    document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/";
+                }
             }
             document.getElementById("inputContainer").innerHTML = "";
             document.getElementById("cgpa").innerText = "";
@@ -301,8 +148,8 @@
 </head>
 <body>
     <div class="header">
-        <a href="index.html">&#8592;</a>
-        <a href="#">SGPA</a>
+        <a style="color:black" href="index.html">&#8592;</a>
+        <h3 style="color:black">SGPA</h3>
         <button onclick="resetCookies()">Reset</button>
     </div>
 

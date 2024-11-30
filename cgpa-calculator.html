@@ -3,179 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/x-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAAAXNSR0IArs4c6QAAASBJREFUWEftmLFKA0EQhr8ftNdeSKOtkNa8jkEhD6G+gyAEfBt7i9QhnUh8g1hMOLg7ZE2yu2SEu3On25vZf/75Z5ZjV3TM1DE+9IOQmV0Bc2ACnDqr+A28AVNJyxD7l0JmNgLegXNnIiHcF3At6fOnYxehGfD8x2Qa+DtJVSda20XoEXioI54kVWs3M7OD+IWQm0IBUG4L29YXQnukKwrFZuofKBSTINXvdspSE8bihktoX2Ve3xtlk/9lXondWtY5QrFhDf25BWS3rBBqFMiV2is+u2Veicspiw2/m0KxRKn+QRC6B15SKz4yLumieAEsgLMjk8W2r4GxpI+DN9fKaWaXwCtwA5zEkDP9m/qx4VbSKtzbj+eYzIpdwzun0BZI1Zs0b+UWAgAAAABJRU5ErkJggg=="/>
     <title>CGPA Calculator</title>
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
-    <style>
-        @keyframes color {
-            0%{
-                background-position: 0% 50%;
-            }
-            50%{
-                background-position: 100% 50%;
-            }
-            100%{
-                background-position: 0% 50%;
-            }
-        }
-        body {
-            background:linear-gradient(45deg,#8cf4f8, #367bdc, #ff9090, #9fff7f);
-            background-size:300% 300%;
-            animation:color 12s ease-in-out infinite;
-            font-family: Arial, sans-serif;
-            background-color: #cafcc6;
-            color: #333;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh; 
-            margin: 0;
-        }
+    <link rel="stylesheet" href="common.css">
 
-        .header {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background-color: #b6b6b6;
-            color: white;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 20px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
-        }
-
-        .header a {
-            color: white;
-            text-decoration: none;
-            font-size: 20px;
-        }
-
-        .header button {
-            background-color: #ff4c4c;
-            color: white;
-            border: none;
-            width:5%;
-            padding: 8px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .header button:hover {
-            background-color: #ff1a1a;
-        }
-
-        .container {
-            position: relative;
-            top:30px;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-            padding: 40px;
-            text-align: center;
-            max-width: 400px;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            max-height: 80vh; /* Add this to prevent it from exceeding the viewport height */
-            overflow-y: auto; /* Enable scroll if content exceeds height */
-        }
-
-        h1 {
-            text-align: center;
-            color: #333;
-        }
-
-        .input-group {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 15px;
-        }
-
-        .input-group label {
-            flex: 1;
-            margin-right: 10px;
-        }
-
-        .input-group input {
-            flex: 2;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-
-        .input-group input[type="number"] {
-            max-width: 100px;
-        }
-
-        button {
-            display: block;
-            width: 25%;
-            padding: 10px;
-            background-color: #8ac3ff;
-            color: #fff;
-            border-color: #0063cd;
-            border-radius: 10px;
-            font-size: 12px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        button:hover {
-            background-color: #16c0ac;
-            transform: scale(1.2);
-        }
-
-        #cgpa {
-            text-align: center;
-            margin-top: 20px;
-            font-size: 20px;
-            font-weight: bold;
-        }
-
-        /* Info icon styling */
-        .info-icon {
-            font-size: 16px;
-            margin-left: 10px;
-            cursor: pointer;
-            position: relative;
-            display: inline-block;
-        }
-
-        .info-icon:hover .tooltip-text {
-            display: block;
-        }
-
-        .tooltip-text {
-            display: none;
-            position:absolute;
-            top: 25px;
-            right: -80px;
-            background-color: rgba(0, 0, 0, 0.75);
-            color: #fff;
-            padding: 10px;
-            border-radius: 5px;
-            width: 250px;
-            z-index: 1000;
-            font-size: 12px;
-        }
-    </style>
     <script>
         // Function to set a cookie
         function setCookie(name, value, days) {
             const d = new Date();
             d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
             const expires = "expires=" + d.toUTCString();
-            document.cookie = name + "=" + value + ";" + expires + ";path=/";
+            document.cookie = "cgpa_" + name + "=" + value + ";" + expires + ";path=/";
         }
 
         // Function to get a cookie
         function getCookie(name) {
-            const cname = name + "=";
+            const cname = "cgpa_" + name + "=";
             const decodedCookie = decodeURIComponent(document.cookie);
             const ca = decodedCookie.split(';');
-            for(let i = 0; i < ca.length; i++) {
+            for (let i = 0; i < ca.length; i++) {
                 let c = ca[i];
                 while (c.charAt(0) === ' ') {
                     c = c.substring(1);
@@ -187,24 +33,24 @@
             return "";
         }
 
-        // Function to delete all cookies and clear generated blocks
+        // Function to delete all CGPA cookies
         function resetCookies() {
             const cookies = document.cookie.split("; ");
             for (let i = 0; i < cookies.length; i++) {
-                const cookie = cookies[i];
-                const eqPos = cookie.indexOf("=");
-                const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
-                document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/";
+                if (cookies[i].startsWith("cgpa_")) {
+                    const name = cookies[i].split("=")[0];
+                    document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/";
+                }
             }
-            document.getElementById("inputContainer").innerHTML = ""; // Clear generated input fields
-            document.getElementById("cgpa").innerText = ""; // Clear CGPA result
+            document.getElementById("inputContainer").innerHTML = "";
+            document.getElementById("cgpa").innerText = "";
         }
 
-        // Function to load input fields based on the number of semesters
+        // Function to load input fields
         function loadInputFields() {
             const semesterCount = parseInt(document.getElementById("semesterCount").value);
-            if (isNaN(semesterCount) || semesterCount <= 0 || semesterCount >= 11) {
-                document.getElementById("cgpa").innerText = "Please enter a valid number of semesters!";
+            if (isNaN(semesterCount) || semesterCount <= 0 || semesterCount > 10) {
+                document.getElementById("cgpa").innerText = "Please enter a valid number of semesters (1-10).";
                 return;
             }
             setCookie("semesterCount", semesterCount, 365);
@@ -212,60 +58,71 @@
             container.innerHTML = "";
 
             for (let i = 1; i <= semesterCount; i++) {
-                const sgpa = getCookie(`semester${i}`) || "";
-                const credits = getCookie(`credits${i}`) || "";
-
                 const row = document.createElement("div");
                 row.classList.add("row");
                 row.innerHTML = `
-                    <Br><div><b>Sem ${i}</b></div><br>
+                    <br><div><b>Semester ${i}</b></div><br>
                     <div>
-                        <label for="semester${i}">SGPA :</label>
-                        <input type="number" id="semester${i}" step="0.01" min="0" max="10" placeholder="0-10" value="${sgpa}">
-                    </div><br>
+                        <label for="sgpa${i}">SGPA:</label>
+                        <input type="number" id="sgpa${i}" step="0.01" min="0" max="10" onchange="saveCookie('${i}')" placeholder="0-10">
+                    </div>
                     <div>
-                        <label for="credits${i}">Credits :</label>
-                        <input type="number" id="credits${i}" min="0" max="30" placeholder="Credits" value="${credits}">
+                        <label for="credits${i}">Credits:</label>
+                        <input type="number" id="credits${i}" max="50" min="0" onchange="saveCookie('${i}')" placeholder="0-50">
                     </div>`;
                 container.appendChild(row);
             }
+            loadSavedData(semesterCount);
         }
 
-        // Save SGPA and credit values to cookies
-        function saveSemesterData(semesterCount) {
+        // Save SGPA and credit values in cookies
+        function saveCookie(semesterIndex) {
+            const sgpa = document.getElementById(`sgpa${semesterIndex}`).value;
+            const credits = document.getElementById(`credits${semesterIndex}`).value;
+            setCookie(`sgpa${semesterIndex}`, sgpa, 365);
+            setCookie(`credits${semesterIndex}`, credits, 365);
+        }
+
+        // Load saved data from cookies
+        function loadSavedData(semesterCount) {
             for (let i = 1; i <= semesterCount; i++) {
-                const sgpa = document.getElementById(`semester${i}`).value;
-                const credits = document.getElementById(`credits${i}`).value;
-                setCookie(`semester${i}`, sgpa, 365);
-                setCookie(`credits${i}`, credits, 365);
+                const savedSGPA = getCookie(`sgpa${i}`);
+                const savedCredits = getCookie(`credits${i}`);
+                if (savedSGPA) document.getElementById(`sgpa${i}`).value = savedSGPA;
+                if (savedCredits) document.getElementById(`credits${i}`).value = savedCredits;
             }
         }
 
         // Calculate CGPA
         function calculateCGPA() {
             const semesterCount = parseInt(document.getElementById("semesterCount").value);
-            if (isNaN(semesterCount) || semesterCount <= 0 || semesterCount >= 11) {
+            if (isNaN(semesterCount) || semesterCount <= 0) {
                 document.getElementById("cgpa").innerText = "Please enter a valid number of semesters!";
                 return;
             }
 
             let totalCredits = 0;
-            let weightedSum = 0;
+            let num = 0;
+
             for (let i = 1; i <= semesterCount; i++) {
-                const sgpa = parseFloat(document.getElementById(`semester${i}`).value);
+                const sgpa = parseFloat(document.getElementById(`sgpa${i}`).value);
                 const credits = parseInt(document.getElementById(`credits${i}`).value);
 
-                if (isNaN(sgpa) || isNaN(credits) || sgpa < 0 || sgpa > 10 || credits < 0) {
-                    document.getElementById("cgpa").innerText = "Please enter valid SGPA and Credits for all semesters!";
+                if (isNaN(sgpa) || sgpa < 0 || sgpa > 10 || isNaN(credits) || credits < 0 || credits > 50) {
+                    document.getElementById("cgpa").innerText = "Please enter valid SGPA (0-10) and credits (0-50) for all semesters!";
                     return;
                 }
 
-                weightedSum += sgpa * credits;
+                num += sgpa * credits;
                 totalCredits += credits;
             }
 
-            saveSemesterData(semesterCount); // Save SGPA and credits to cookies
-            const cgpa = weightedSum / totalCredits;
+            if (totalCredits === 0) {
+                document.getElementById("cgpa").innerText = "No valid SGPA or credits to calculate CGPA!";
+                return;
+            }
+
+            const cgpa = num / totalCredits;
             document.getElementById("cgpa").innerText = "Your CGPA is: " + cgpa.toFixed(2);
         }
 
@@ -280,32 +137,30 @@
     </script>
 </head>
 <body>
-    <!-- HTML structure remains the same -->
     <div class="header">
-        <a href="index.html" style="color: rgb(0, 0, 0);">&#8592;</a>
-        <a href="#" style="color: rgb(0, 0, 0);">CGPA</a>
+        <a style="color:black" href="index.html">&#8592;</a>
+        <h3 style="color:black">CGPA</h3>
         <button onclick="resetCookies()">Reset</button>
     </div>
 
     <div class="container">
         <h1>CGPA Calculator
         <span class="info-icon"><box-icon name='info-circle'></box-icon>
-            <span class="tooltip-text">
-                You can enter the number of semesters and then input the SGPA and credits for each semester to calculate the CGPA.
-            </span>
+            <span class="tooltip-text">Enter SGPA and credits for each semester.</span>
         </span>
         </h1>
-        
+
         <div class="input-group">
             <label for="semesterCount">Number of Semesters:</label>
             <input type="number" id="semesterCount" min="1" max="10" placeholder="1-10">
         </div>
-        <center><button onclick="loadInputFields()">Submit</button><br>
 
+        <center>
+        <button onclick="loadInputFields()">Submit</button> 
         <div id="inputContainer"></div><br>
-
         <button onclick="calculateCGPA()">Calculate CGPA</button>
-        <p id="cgpa"></p></center>
+        <p id="cgpa"></p>
+        </center>
     </div>
 </body>
 </html>
