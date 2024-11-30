@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/x-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAAAXNSR0IArs4c6QAAASBJREFUWEftmLFKA0EQhr8ftNdeSKOtkNa8jkEhD6G+gyAEfBt7i9QhnUh8g1hMOLg7ZE2yu2SEu3On25vZf/75Z5ZjV3TM1DE+9IOQmV0Bc2ACnDqr+A28AVNJyxD7l0JmNgLegXNnIiHcF3At6fOnYxehGfD8x2Qa+DtJVSda20XoEXioI54kVWs3M7OD+IWQm0IBUG4L29YXQnukKwrFZuofKBSTINXvdspSE8bihktoX2Ve3xtlk/9lXondWtY5QrFhDf25BWS3rBBqFMiV2is+u2Veicspiw2/m0KxRKn+QRC6B15SKz4yLumieAEsgLMjk8W2r4GxpI+DN9fKaWaXwCtwA5zEkDP9m/qx4VbSKtzbj+eYzIpdwzun0BZI1Zs0b+UWAgAAAABJRU5ErkJggg=="/>
-    <title>CGPA Calculator</title>
+    <title>SGPA Calculator</title>
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
     <style>
         @keyframes color {
@@ -175,7 +174,7 @@
             const cname = name + "=";
             const decodedCookie = decodeURIComponent(document.cookie);
             const ca = decodedCookie.split(';');
-            for(let i = 0; i < ca.length; i++) {
+            for (let i = 0; i < ca.length; i++) {
                 let c = ca[i];
                 while (c.charAt(0) === ' ') {
                     c = c.substring(1);
@@ -196,116 +195,135 @@
                 const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
                 document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/";
             }
-            document.getElementById("inputContainer").innerHTML = ""; // Clear generated input fields
-            document.getElementById("cgpa").innerText = ""; // Clear CGPA result
+            document.getElementById("inputContainer").innerHTML = "";
+            document.getElementById("cgpa").innerText = "";
         }
 
-        // Function to load input fields based on the number of semesters
+        // Function to load input fields
         function loadInputFields() {
-            const semesterCount = parseInt(document.getElementById("semesterCount").value);
-            if (isNaN(semesterCount) || semesterCount <= 0 || semesterCount >= 11) {
-                document.getElementById("cgpa").innerText = "Please enter a valid number of semesters!";
+            const subjectCount = parseInt(document.getElementById("semesterCount").value);
+            if (isNaN(subjectCount) || subjectCount <= 0 || subjectCount > 10) {
+                document.getElementById("cgpa").innerText = "Please enter a valid number of subjects (1-10).";
                 return;
             }
-            setCookie("semesterCount", semesterCount, 365);
+            setCookie("subjectCount", subjectCount, 365);
             const container = document.getElementById("inputContainer");
             container.innerHTML = "";
 
-            for (let i = 1; i <= semesterCount; i++) {
-                const sgpa = getCookie(`semester${i}`) || "";
-                const credits = getCookie(`credits${i}`) || "";
-
+            for (let i = 1; i <= subjectCount; i++) {
                 const row = document.createElement("div");
                 row.classList.add("row");
                 row.innerHTML = `
-                    <Br><div><b>Sem ${i}</b></div><br>
+                    <br><div><b>Subject ${i}</b></div><br>
                     <div>
-                        <label for="semester${i}">SGPA :</label>
-                        <input type="number" id="semester${i}" step="0.01" min="0" max="10" placeholder="0-10" value="${sgpa}">
-                    </div><br>
+                        <label for="grade${i}">Grade:</label>
+                        <select id="grade${i}" onchange="saveCookie('${i}')">
+                            <option value="S">S</option>
+                            <option value="A">A</option>
+                            <option value="B">B</option>
+                            <option value="C">C</option>
+                            <option value="D">D</option>
+                            <option value="E">E</option>
+                            <option value="F">F</option>
+                        </select>
+                    </div>
                     <div>
-                        <label for="credits${i}">Credits :</label>
-                        <input type="number" id="credits${i}" min="0" max="30" placeholder="Credits" value="${credits}">
+                        <label for="credits${i}">Credits:</label>
+                        <input type="number" id="credits${i}" max="5" min="0" onchange="saveCookie('${i}')" placeholder="0-5">
                     </div>`;
                 container.appendChild(row);
             }
+            loadSavedData(subjectCount);
         }
 
-        // Save SGPA and credit values to cookies
-        function saveSemesterData(semesterCount) {
-            for (let i = 1; i <= semesterCount; i++) {
-                const sgpa = document.getElementById(`semester${i}`).value;
-                const credits = document.getElementById(`credits${i}`).value;
-                setCookie(`semester${i}`, sgpa, 365);
-                setCookie(`credits${i}`, credits, 365);
+        // Save grade and credit values in cookies
+        function saveCookie(subjectIndex) {
+            const grade = document.getElementById(`grade${subjectIndex}`).value;
+            const credits = document.getElementById(`credits${subjectIndex}`).value;
+            setCookie(`grade${subjectIndex}`, grade, 365);
+            setCookie(`credits${subjectIndex}`, credits, 365);
+        }
+
+        // Load saved data from cookies
+        function loadSavedData(subjectCount) {
+            for (let i = 1; i <= subjectCount; i++) {
+                const savedGrade = getCookie(`grade${i}`);
+                const savedCredits = getCookie(`credits${i}`);
+                if (savedGrade) document.getElementById(`grade${i}`).value = savedGrade;
+                if (savedCredits) document.getElementById(`credits${i}`).value = savedCredits;
             }
         }
 
-        // Calculate CGPA
-        function calculateCGPA() {
-            const semesterCount = parseInt(document.getElementById("semesterCount").value);
-            if (isNaN(semesterCount) || semesterCount <= 0 || semesterCount >= 11) {
-                document.getElementById("cgpa").innerText = "Please enter a valid number of semesters!";
+        // Calculate SGPA
+        function calculateSGPA() {
+            const subjectCount = parseInt(document.getElementById("semesterCount").value);
+            if (isNaN(subjectCount) || subjectCount <= 0) {
+                document.getElementById("cgpa").innerText = "Please enter a valid number of subjects!";
                 return;
             }
 
+            const gradePoints = { S: 10, A: 9, B: 8, C: 7, D: 6, E: 5, F: 0 };
             let totalCredits = 0;
-            let weightedSum = 0;
-            for (let i = 1; i <= semesterCount; i++) {
-                const sgpa = parseFloat(document.getElementById(`semester${i}`).value);
+            let num = 0;
+
+            for (let i = 1; i <= subjectCount; i++) {
+                const grade = document.getElementById(`grade${i}`).value;
                 const credits = parseInt(document.getElementById(`credits${i}`).value);
 
-                if (isNaN(sgpa) || isNaN(credits) || sgpa < 0 || sgpa > 10 || credits < 0) {
-                    document.getElementById("cgpa").innerText = "Please enter valid SGPA and Credits for all semesters!";
+                if (isNaN(credits) || credits < 0 || credits > 5) {
+                    document.getElementById("cgpa").innerText = "Please enter valid credits (0-5) for all subjects!";
                     return;
                 }
 
-                weightedSum += sgpa * credits;
+                if (grade === "F") continue;
+                num += gradePoints[grade] * credits;
                 totalCredits += credits;
             }
 
-            saveSemesterData(semesterCount); // Save SGPA and credits to cookies
-            const cgpa = weightedSum / totalCredits;
-            document.getElementById("cgpa").innerText = "Your CGPA is: " + cgpa.toFixed(2);
+            if (totalCredits === 0) {
+                document.getElementById("cgpa").innerText = "No valid grades or credits to calculate SGPA!";
+                return;
+            }
+
+            const sgpa = num / totalCredits;
+            document.getElementById("cgpa").innerText = "Your SGPA is: " + sgpa.toFixed(2);
         }
 
         // Load initial cookie-based data
         window.onload = function() {
-            const savedSemesterCount = getCookie("semesterCount");
-            if (savedSemesterCount) {
-                document.getElementById("semesterCount").value = savedSemesterCount;
+            const savedSubjectCount = getCookie("subjectCount");
+            if (savedSubjectCount) {
+                document.getElementById("semesterCount").value = savedSubjectCount;
                 loadInputFields();
             }
         };
     </script>
 </head>
 <body>
-    <!-- HTML structure remains the same -->
     <div class="header">
-        <a href="index.html" style="color: rgb(0, 0, 0);">&#8592;</a>
-        <a href="#" style="color: rgb(0, 0, 0);">CGPA</a>
+        <a href="index.html">&#8592;</a>
+        <a href="#">SGPA</a>
         <button onclick="resetCookies()">Reset</button>
     </div>
 
     <div class="container">
-        <h1>CGPA Calculator
+        <h1>SGPA Calculator
         <span class="info-icon"><box-icon name='info-circle'></box-icon>
-            <span class="tooltip-text">
-                You can enter the number of semesters and then input the SGPA and credits for each semester to calculate the CGPA.
-            </span>
+            <span class="tooltip-text">Grade details: S - Highest, F - Fail</span>
         </span>
         </h1>
-        
+
         <div class="input-group">
-            <label for="semesterCount">Number of Semesters:</label>
+            <label for="semesterCount">Number of Subjects:</label>
             <input type="number" id="semesterCount" min="1" max="10" placeholder="1-10">
         </div>
-        <center><button onclick="loadInputFields()">Submit</button><br>
 
+        <center>
+        <button onclick="loadInputFields()">Submit</button> 
         <div id="inputContainer"></div><br>
-
-        <button onclick="calculateCGPA()">Calculate CGPA</button>
-        <p id="cgpa"></p></center>
+        <button onclick="calculateSGPA()">Calculate SGPA</button>
+        <p id="cgpa"></p>
+        </center>
     </div>
 </body>
 </html>
