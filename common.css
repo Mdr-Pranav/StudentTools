@@ -57,7 +57,7 @@ body {
 
 /* Right section styling */
 .header-right {
-    margin-right: 25px;
+    margin-right: 15px;
     flex: 1;
     display: flex;
     justify-content: flex-end;
