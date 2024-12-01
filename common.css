@@ -133,7 +133,7 @@ button {
     width: 25%;
     padding: 10px;
     background-color: #8ac3ff;
-    color: #fff;
+    color: #000000;
     border-color: #8ac3ff;
     border-radius: 10px;
     font-size: 12px;
@@ -142,6 +142,7 @@ button {
 }
 
 button:hover {
+    color:white;
     border-color: #16c0ac;
     background-color: #16c0ac;
     transform: scale(1.1);
