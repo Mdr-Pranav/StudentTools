@@ -4,8 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SGPA Calculator</title>
+
+    <!-- Including required CSS and JavaScripts -->
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
     <link rel="stylesheet" href="common.css">
+    <script src="loginpw.js"></script>
 
     <script>
         // Function to set a cookie
@@ -57,11 +60,12 @@
             const container = document.getElementById("inputContainer");
             container.innerHTML = "";
 
-            for (let i = 1; i <= subjectCount; i++) {
-                const row = document.createElement("div");
-                row.classList.add("row");
-                row.innerHTML = `
-                    <br><div><b>Subject ${i}</b></div><br>
+        for (let i = 1; i <= subjectCount; i++) {
+            const row = document.createElement("div");
+            row.classList.add("row");
+            row.innerHTML = `
+                <br><div style="text-align: center;"><b>Subject ${i}</b></div><br>
+                <div style="display: flex; justify-content: center; align-items: center; gap: 1rem;">
                     <div>
                         <label for="grade${i}">Grade:</label>
                         <select id="grade${i}" onchange="saveCookie('${i}')">
@@ -77,10 +81,11 @@
                     <div>
                         <label for="credits${i}">Credits:</label>
                         <input type="number" id="credits${i}" max="5" min="0" onchange="saveCookie('${i}')" placeholder="0-5">
-                    </div>`;
-                container.appendChild(row);
-            }
-            loadSavedData(subjectCount);
+                    </div>
+                </div>`;
+            container.appendChild(row);
+        }
+        loadSavedData(subjectCount);
         }
 
         // Save grade and credit values in cookies
@@ -101,41 +106,6 @@
             }
         }
 
-        // Calculate SGPA
-        function calculateSGPA() {
-            const subjectCount = parseInt(document.getElementById("semesterCount").value);
-            if (isNaN(subjectCount) || subjectCount <= 0) {
-                document.getElementById("cgpa").innerText = "Please enter a valid number of subjects!";
-                return;
-            }
-
-            const gradePoints = { S: 10, A: 9, B: 8, C: 7, D: 6, E: 5, F: 0 };
-            let totalCredits = 0;
-            let num = 0;
-
-            for (let i = 1; i <= subjectCount; i++) {
-                const grade = document.getElementById(`grade${i}`).value;
-                const credits = parseInt(document.getElementById(`credits${i}`).value);
-
-                if (isNaN(credits) || credits < 0 || credits > 5) {
-                    document.getElementById("cgpa").innerText = "Please enter valid credits (0-5) for all subjects!";
-                    return;
-                }
-
-                if (grade === "F") continue;
-                num += gradePoints[grade] * credits;
-                totalCredits += credits;
-            }
-
-            if (totalCredits === 0) {
-                document.getElementById("cgpa").innerText = "No valid grades or credits to calculate SGPA!";
-                return;
-            }
-
-            const sgpa = num / totalCredits;
-            document.getElementById("cgpa").innerText = "Your SGPA is: " + sgpa.toFixed(2);
-        }
-
         // Load initial cookie-based data
         window.onload = function() {
             const savedSubjectCount = getCookie("subjectCount");
@@ -148,10 +118,18 @@
 </head>
 <body>
     <div class="header">
-        <a style="color:black" href="index.html">&#8592;</a>
-        <h3 style="color:black">SGPA</h3>
-        <button onclick="resetCookies()">Reset</button>
+        <h3 style="color: #b6b6b6;">_</h3>
+        <div class="header-left">
+            <a class="nav "style="color:black; font-size: 15px;" href="index.html">Home</a>
+            <a class="nav" style="color:black; font-size: 15px;" href="cgpa-calculator.html">CGPA</a>
+            <a class="nav" style="color:black; font-size: 15px;" href="attendance-calculator.html">Attendance</a>
+        </div>
+        <h3 class="header-center">SGPA</h3>
+        <div class="header-right">
+            <button onclick="resetCookies()">Reset</button>
+        </div>
     </div>
+    
 
     <div class="container">
         <h1>SGPA Calculator

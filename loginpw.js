@@ -53,16 +53,71 @@ function calculateAttendance() {
     document.getElementById('output').innerHTML = outputMessage;
 }
 
-const f = document.getElementById('form');
-const q = document.getElementById('query');
-const google = 'https://www.google.com/search?q=';
-// const site = 'pagedart.com';
 
-function submitted(event) {
-  event.preventDefault();
-  const url = google + '+' + q.value;
-  const win = window.open(url, '_blank');
-  win.focus();
+// Calculate SGPA
+function calculateSGPA() {
+    const subjectCount = parseInt(document.getElementById("semesterCount").value);
+    if (isNaN(subjectCount) || subjectCount <= 0) {
+        document.getElementById("cgpa").innerText = "Please enter a valid number of subjects!";
+        return;
+    }
+
+    const gradePoints = { S: 10, A: 9, B: 8, C: 7, D: 6, E: 5, F: 0 };
+    let totalCredits = 0;
+    let num = 0;
+
+    for (let i = 1; i <= subjectCount; i++) {
+        const grade = document.getElementById(`grade${i}`).value;
+        const credits = parseInt(document.getElementById(`credits${i}`).value);
+
+        if (isNaN(credits) || credits < 0 || credits > 5) {
+            document.getElementById("cgpa").innerText = "Please enter valid credits (0-5) for all subjects!";
+            return;
+        }
+
+        if (grade === "F") continue;
+        num += gradePoints[grade] * credits;
+        totalCredits += credits;
+    }
+
+    if (totalCredits === 0) {
+        document.getElementById("cgpa").innerText = "No valid grades or credits to calculate SGPA!";
+        return;
+    }
+
+    const sgpa = num / totalCredits;
+    document.getElementById("cgpa").innerText = "Your SGPA is: " + sgpa.toFixed(2);
 }
 
-f.addEventListener('submit', submitted);
+ // Calculate CGPA
+ function calculateCGPA() {
+    const semesterCount = parseInt(document.getElementById("semesterCount").value);
+    if (isNaN(semesterCount) || semesterCount <= 0) {
+        document.getElementById("cgpa").innerText = "Please enter a valid number of semesters!";
+        return;
+    }
+
+    let totalCredits = 0;
+    let num = 0;
+
+    for (let i = 1; i <= semesterCount; i++) {
+        const sgpa = parseFloat(document.getElementById(`sgpa${i}`).value);
+        const credits = parseInt(document.getElementById(`credits${i}`).value);
+
+        if (isNaN(sgpa) || sgpa < 0 || sgpa > 10 || isNaN(credits) || credits < 0 || credits > 50) {
+            document.getElementById("cgpa").innerText = "Please enter valid SGPA (0-10) and credits (0-50) for all semesters!";
+            return;
+        }
+
+        num += sgpa * credits;
+        totalCredits += credits;
+    }
+
+    if (totalCredits === 0) {
+        document.getElementById("cgpa").innerText = "No valid SGPA or credits to calculate CGPA!";
+        return;
+    }
+
+    const cgpa = num / totalCredits;
+    document.getElementById("cgpa").innerText = "Your CGPA is: " + cgpa.toFixed(2);
+}

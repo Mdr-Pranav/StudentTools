@@ -4,8 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CGPA Calculator</title>
+
+    <!-- Including required CSS and JavaScripts -->
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
     <link rel="stylesheet" href="common.css">
+    <script src="loginpw.js"></script>
+
 
     <script>
         // Function to set a cookie
@@ -62,6 +66,7 @@
                 row.classList.add("row");
                 row.innerHTML = `
                     <br><div><b>Semester ${i}</b></div><br>
+                    <div style="display: flex; justify-content: center; align-items: center; gap: 1rem;">
                     <div>
                         <label for="sgpa${i}">SGPA:</label>
                         <input type="number" id="sgpa${i}" step="0.01" min="0" max="10" onchange="saveCookie('${i}')" placeholder="0-10">
@@ -69,7 +74,7 @@
                     <div>
                         <label for="credits${i}">Credits:</label>
                         <input type="number" id="credits${i}" max="50" min="0" onchange="saveCookie('${i}')" placeholder="0-50">
-                    </div>`;
+                    </div></div>`;
                 container.appendChild(row);
             }
             loadSavedData(semesterCount);
@@ -93,40 +98,7 @@
             }
         }
 
-        // Calculate CGPA
-        function calculateCGPA() {
-            const semesterCount = parseInt(document.getElementById("semesterCount").value);
-            if (isNaN(semesterCount) || semesterCount <= 0) {
-                document.getElementById("cgpa").innerText = "Please enter a valid number of semesters!";
-                return;
-            }
-
-            let totalCredits = 0;
-            let num = 0;
-
-            for (let i = 1; i <= semesterCount; i++) {
-                const sgpa = parseFloat(document.getElementById(`sgpa${i}`).value);
-                const credits = parseInt(document.getElementById(`credits${i}`).value);
-
-                if (isNaN(sgpa) || sgpa < 0 || sgpa > 10 || isNaN(credits) || credits < 0 || credits > 50) {
-                    document.getElementById("cgpa").innerText = "Please enter valid SGPA (0-10) and credits (0-50) for all semesters!";
-                    return;
-                }
-
-                num += sgpa * credits;
-                totalCredits += credits;
-            }
-
-            if (totalCredits === 0) {
-                document.getElementById("cgpa").innerText = "No valid SGPA or credits to calculate CGPA!";
-                return;
-            }
-
-            const cgpa = num / totalCredits;
-            document.getElementById("cgpa").innerText = "Your CGPA is: " + cgpa.toFixed(2);
-        }
-
-        // Load initial cookie-based data
+       // Load initial cookie-based data
         window.onload = function() {
             const savedSemesterCount = getCookie("semesterCount");
             if (savedSemesterCount) {
@@ -138,9 +110,16 @@
 </head>
 <body>
     <div class="header">
-        <a style="color:black" href="index.html">&#8592;</a>
-        <h3 style="color:black">CGPA</h3>
-        <button onclick="resetCookies()">Reset</button>
+        <h3 style="color: #b6b6b6;">_</h3>
+        <div class="header-left">
+            <a class="nav "style="color:black; font-size: 15px;" href="index.html">Home</a>
+            <a class="nav" style="color:black; font-size: 15px;" href="sgpa-calc.html">SGPA</a>
+            <a class="nav" style="color:black; font-size: 15px;" href="attendance-calculator.html">Attendance</a>
+        </div>
+        <h3 class="header-center">CGPA</h3>
+        <div class="header-right">
+            <button onclick="resetCookies()">Reset</button>
+        </div>
     </div>
 
     <div class="container">
