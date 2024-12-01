@@ -57,6 +57,7 @@ body {
 
 /* Right section styling */
 .header-right {
+    margin-right: 25px;
     flex: 1;
     display: flex;
     justify-content: flex-end;
@@ -80,7 +81,7 @@ body {
 }
 
 .header button:hover {
-    background-color: #ff1a1a;
+    background-color: #960000;
 }
 
 /* Container styling */
@@ -133,7 +134,7 @@ button {
     padding: 10px;
     background-color: #8ac3ff;
     color: #fff;
-    border-color: #0063cd;
+    border-color: #8ac3ff;
     border-radius: 10px;
     font-size: 12px;
     cursor: pointer;
@@ -141,8 +142,9 @@ button {
 }
 
 button:hover {
+    border-color: #16c0ac;
     background-color: #16c0ac;
-    transform: scale(1.2);
+    transform: scale(1.1);
 }
 
 /* Tooltip and info icon styling */

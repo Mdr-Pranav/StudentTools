@@ -4,109 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CGPA Calculator</title>
+    <link rel=icon type="image/x-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAAAXNSR0IArs4c6QAAASBJREFUWEftmLFKA0EQhr8ftNdeSKOtkNa8jkEhD6G+gyAEfBt7i9QhnUh8g1hMOLg7ZE2yu2SEu3On25vZf/75Z5ZjV3TM1DE+9IOQmV0Bc2ACnDqr+A28AVNJyxD7l0JmNgLegXNnIiHcF3At6fOnYxehGfD8x2Qa+DtJVSda20XoEXioI54kVWs3M7OD+IWQm0IBUG4L29YXQnukKwrFZuofKBSTINXvdspSE8bihktoX2Ve3xtlk/9lXondWtY5QrFhDf25BWS3rBBqFMiV2is+u2Veicspiw2/m0KxRKn+QRC6B15SKz4yLumieAEsgLMjk8W2r4GxpI+DN9fKaWaXwCtwA5zEkDP9m/qx4VbSKtzbj+eYzIpdwzun0BZI1Zs0b+UWAgAAAABJRU5ErkJggg=="/>
 
     <!-- Including required CSS and JavaScripts -->
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
     <link rel="stylesheet" href="common.css">
-    <script src="loginpw.js"></script>
+    <script src="cgpa.js"></script>
 
-
-    <script>
-        // Function to set a cookie
-        function setCookie(name, value, days) {
-            const d = new Date();
-            d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
-            const expires = "expires=" + d.toUTCString();
-            document.cookie = "cgpa_" + name + "=" + value + ";" + expires + ";path=/";
-        }
-
-        // Function to get a cookie
-        function getCookie(name) {
-            const cname = "cgpa_" + name + "=";
-            const decodedCookie = decodeURIComponent(document.cookie);
-            const ca = decodedCookie.split(';');
-            for (let i = 0; i < ca.length; i++) {
-                let c = ca[i];
-                while (c.charAt(0) === ' ') {
-                    c = c.substring(1);
-                }
-                if (c.indexOf(cname) === 0) {
-                    return c.substring(cname.length, c.length);
-                }
-            }
-            return "";
-        }
-
-        // Function to delete all CGPA cookies
-        function resetCookies() {
-            const cookies = document.cookie.split("; ");
-            for (let i = 0; i < cookies.length; i++) {
-                if (cookies[i].startsWith("cgpa_")) {
-                    const name = cookies[i].split("=")[0];
-                    document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/";
-                }
-            }
-            document.getElementById("inputContainer").innerHTML = "";
-            document.getElementById("cgpa").innerText = "";
-        }
-
-        // Function to load input fields
-        function loadInputFields() {
-            const semesterCount = parseInt(document.getElementById("semesterCount").value);
-            if (isNaN(semesterCount) || semesterCount <= 0 || semesterCount > 10) {
-                document.getElementById("cgpa").innerText = "Please enter a valid number of semesters (1-10).";
-                return;
-            }
-            setCookie("semesterCount", semesterCount, 365);
-            const container = document.getElementById("inputContainer");
-            container.innerHTML = "";
-
-            for (let i = 1; i <= semesterCount; i++) {
-                const row = document.createElement("div");
-                row.classList.add("row");
-                row.innerHTML = `
-                    <br><div><b>Semester ${i}</b></div><br>
-                    <div style="display: flex; justify-content: center; align-items: center; gap: 1rem;">
-                    <div>
-                        <label for="sgpa${i}">SGPA:</label>
-                        <input type="number" id="sgpa${i}" step="0.01" min="0" max="10" onchange="saveCookie('${i}')" placeholder="0-10">
-                    </div>
-                    <div>
-                        <label for="credits${i}">Credits:</label>
-                        <input type="number" id="credits${i}" max="50" min="0" onchange="saveCookie('${i}')" placeholder="0-50">
-                    </div></div>`;
-                container.appendChild(row);
-            }
-            loadSavedData(semesterCount);
-        }
-
-        // Save SGPA and credit values in cookies
-        function saveCookie(semesterIndex) {
-            const sgpa = document.getElementById(`sgpa${semesterIndex}`).value;
-            const credits = document.getElementById(`credits${semesterIndex}`).value;
-            setCookie(`sgpa${semesterIndex}`, sgpa, 365);
-            setCookie(`credits${semesterIndex}`, credits, 365);
-        }
-
-        // Load saved data from cookies
-        function loadSavedData(semesterCount) {
-            for (let i = 1; i <= semesterCount; i++) {
-                const savedSGPA = getCookie(`sgpa${i}`);
-                const savedCredits = getCookie(`credits${i}`);
-                if (savedSGPA) document.getElementById(`sgpa${i}`).value = savedSGPA;
-                if (savedCredits) document.getElementById(`credits${i}`).value = savedCredits;
-            }
-        }
-
-       // Load initial cookie-based data
-        window.onload = function() {
-            const savedSemesterCount = getCookie("semesterCount");
-            if (savedSemesterCount) {
-                document.getElementById("semesterCount").value = savedSemesterCount;
-                loadInputFields();
-            }
-        };
-    </script>
 </head>
 <body>
     <div class="header">
