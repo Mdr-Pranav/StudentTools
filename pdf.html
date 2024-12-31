@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance-Calc</title>
+    <link rel=icon type="image/x-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAAAXNSR0IArs4c6QAAASBJREFUWEftmLFKA0EQhr8ftNdeSKOtkNa8jkEhD6G+gyAEfBt7i9QhnUh8g1hMOLg7ZE2yu2SEu3On25vZf/75Z5ZjV3TM1DE+9IOQmV0Bc2ACnDqr+A28AVNJyxD7l0JmNgLegXNnIiHcF3At6fOnYxehGfD8x2Qa+DtJVSda20XoEXioI54kVWs3M7OD+IWQm0IBUG4L29YXQnukKwrFZuofKBSTINXvdspSE8bihktoX2Ve3xtlk/9lXondWtY5QrFhDf25BWS3rBBqFMiV2is+u2Veicspiw2/m0KxRKn+QRC6B15SKz4yLumieAEsgLMjk8W2r4GxpI+DN9fKaWaXwCtwA5zEkDP9m/qx4VbSKtzbj+eYzIpdwzun0BZI1Zs0b+UWAgAAAABJRU5ErkJggg=="/>
+    <!-- <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'> -->
+    <link rel="stylesheet" href="common.css">
+</head>
+
+<body>
+    <div class="header">
+        <h3 style="color: transparent;">_</h3>
+        <div class="header-left">
+            <a class="nav "style="color:white; font-size: 15px;" href="attendance-calculator.html">Attendance</a>
+            <a class="nav" style="color:white; font-size: 15px;" href="sgpa-calc.html">SGPA</a>
+            <a class="nav" style="color:white; font-size: 15px;" href="cgpa-calculator.html">CGPA</a>
+        </div>
+        <!-- <h3 class="header-center">Attendance</h3> -->
+        <div class="header-right">
+        </div>
+    </div>
+
+    <div class="container">
+        <Center><h1>PDF Combiner</h1>
+        <input type="file" id="fileInput" multiple accept="application/pdf"><br><br>
+        <input type="text" id="fileName" placeholder="Enter file name"><br><Br>
+        <button onclick="combinePDFs()">Combine PDFs</button><br><Br>
+        <div id="output"></div>
+        </Center>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+    <script>
+        async function combinePDFs() {
+            const input = document.getElementById("fileInput");
+            const fileNameInput = document.getElementById("fileName");
+            const files = input.files;
+            const fileName = fileNameInput.value.trim() || "merged";
+
+            if (files.length === 0) {
+                document.getElementById("output").textContent = "No PDF files selected.";
+                return;
+            }
+
+            const pdfDoc = await PDFLib.PDFDocument.create();
+            for (const file of files) {
+                const arrayBuffer = await file.arrayBuffer();
+                const loadedPdf = await PDFLib.PDFDocument.load(arrayBuffer);
+                const copiedPages = await pdfDoc.copyPages(loadedPdf, loadedPdf.getPageIndices());
+                copiedPages.forEach((page) => pdfDoc.addPage(page));
+            }
+
+            const mergedPdf = await pdfDoc.save();
+
+            const blob = new Blob([mergedPdf], { type: "application/pdf" });
+            const url = URL.createObjectURL(blob);
+
+
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = `${fileName}.pdf`;
+            a.textContent = `Download ${fileName}.pdf`;
+
+            const outputDiv = document.getElementById("output");
+            outputDiv.textContent = "";
+            outputDiv.appendChild(a);
+        }
+    </script>
+</body>
+
+</html>

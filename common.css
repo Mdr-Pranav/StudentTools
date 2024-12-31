@@ -151,6 +151,27 @@ button:hover {
     transform: scale(1.1);
 }
 
+/* Button styling */
+.btn {
+    display: block;
+    width: 25%;
+    padding: 10px;
+    background-color: #8ac3ff;
+    color: #000000;
+    border-color: #8ac3ff;
+    border-radius: 10px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.btn:hover {
+    color:white;
+    border-color: #16c0ac;
+    background-color: #16c0ac;
+    transform: scale(1.1);
+}
+
 /* Tooltip and info icon styling */
 .info-icon {
     font-size: 16px;
