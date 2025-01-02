@@ -13,15 +13,18 @@
     <div class="header">
         <h3 style="color: transparent;">_</h3>
         <div class="header-left">
-            <a class="nav "style="color:white; font-size: 15px;" href="attendance-calculator.html">Attendance</a>
-            <a class="nav" style="color:white; font-size: 15px;" href="sgpa-calc.html">SGPA</a>
-            <a class="nav" style="color:white; font-size: 15px;" href="cgpa-calculator.html">CGPA</a>
-        </div>
-        <!-- <h3 class="header-center">Attendance</h3> -->
-        <div class="header-right">
+            <div class="dropdown">
+                <a class="dropdown-btn"> ☰</a>
+                <div class="dropdown-menu">
+                    <a href="index.html">Home</a>
+                    <a href="sgpa-calc.html">SGPA</a>
+                    <a href="cgpa-calculator.html">CGPA</a>
+                    <a href="attendance-calculator.html">Attendance</a>
+                </div>
+            </div>
         </div>
     </div>
-
+    
     <div class="container">
         <Center><h1>PDF Combiner</h1>
         <input type="file" id="fileInput" multiple accept="application/pdf"><br><br>
@@ -33,6 +36,10 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
     <script>
+        function toggleMenu() {
+            const menu = document.getElementById("dropdownMenu");
+            menu.style.display = menu.style.display === "flex" ? "none" : "flex";
+        }
         async function combinePDFs() {
             const input = document.getElementById("fileInput");
             const fileNameInput = document.getElementById("fileName");
