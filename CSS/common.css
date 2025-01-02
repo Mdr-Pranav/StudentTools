@@ -36,6 +36,7 @@ body {
 .dropdown-btn {
     background: none;
     border: none;
+    background-color: #004e7b;
     color: white;
     font-size: 20px;
     cursor: pointer;
@@ -43,10 +44,6 @@ body {
     align-items: center;
     left: 10px;
     gap: 5px;
-}
-
-.dropdown-btn:hover {
-    color: #00bcd4;
 }
 
 .dropdown-menu {
@@ -76,6 +73,15 @@ body {
 /* Show dropdown on hover or click */
 .dropdown:hover .dropdown-menu {
     display: block;
+}
+
+.dropdown button {
+    align-content: center;
+    background-color: #004e7b;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
 
@@ -125,7 +131,7 @@ body {
 }
 
 /* Button styling */
-.header button {
+.header-right button {
     align-content: center;
     background-color: #ff4c4c;
     color: white;
@@ -135,7 +141,7 @@ body {
     cursor: pointer;
 }
 
-.header button:hover {
+.header-right button:hover {
     background-color: #960000;
 }
 
