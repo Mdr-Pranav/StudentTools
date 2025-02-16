@@ -10,7 +10,9 @@
 
 <body>
     <div class="header">
-        <h3 style="color: transparent;">_</h3>
+        <div class="header" id="daysRemaining">
+            Loading...
+        </div>
         <h3 class="header-center" style="color:white"><b>HOME</b></h3>
     </div>
     <div class="container">
@@ -25,5 +27,24 @@
         </center>
     </div>
 </body>
+
+<script>
+    function calculateRemainingDays() {
+        const today = new Date();
+        const endOfYear = new Date(today.getFullYear(), 11, 31); // December 31st
+        
+        // Ensure only the date part is compared (remove time component)
+        const todayDateOnly = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+        
+        const timeDifference = endOfYear.getTime() - todayDateOnly.getTime();
+        const remainingDays = Math.ceil(timeDifference / (1000 * 60 * 60 * 24)); // Convert ms to days
+
+        document.getElementById("daysRemaining").textContent = 
+            `📅 ${remainingDays} Days Left in ${today.getFullYear()}`;
+    }
+
+    // Run on page load
+    calculateRemainingDays();
+</script>
 
 </html>
