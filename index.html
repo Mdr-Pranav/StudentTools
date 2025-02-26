@@ -10,10 +10,10 @@
 
 <body>
     <div class="header">
-        <div class="header" id="daysRemaining">
+        <h3 class="header-left" id="daysRemaining">
             Loading...
-        </div>
-        <h3 class="header-center" style="color:white"><b>HOME</b></h3>
+        </h3>
+        <!-- <h3 class="header-center" style="color:white"><b>HOME</b></h3> -->
     </div>
     <div class="container">
         <h1>Student Tools</h1><br>
@@ -40,7 +40,7 @@
         const remainingDays = Math.ceil(timeDifference / (1000 * 60 * 60 * 24)); // Convert ms to days
 
         document.getElementById("daysRemaining").textContent = 
-            `📅 ${remainingDays} Days Left in ${today.getFullYear()}`;
+            `📅 ${remainingDays} Days Left`;
     }
 
     // Run on page load
