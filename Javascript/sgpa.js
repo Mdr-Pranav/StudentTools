@@ -82,32 +82,32 @@ function loadInputFields() {
     const container = document.getElementById("inputContainer");
     container.innerHTML = "";
 
-for (let i = 1; i <= subjectCount; i++) {
-    const row = document.createElement("div");
-    row.classList.add("row");
-    row.innerHTML = `
-        <br><div style="text-align: center;"><b>Subject ${i}</b></div><br>
-        <div style="display: flex; justify-content: center; align-items: center; gap: 1rem;">
-            <div>
-                <label for="grade${i}">Grade:</label>
-                <select id="grade${i}" onchange="saveCookie('${i}')">
-                    <option value="S">S</option>
-                    <option value="A">A</option>
-                    <option value="B">B</option>
-                    <option value="C">C</option>
-                    <option value="D">D</option>
-                    <option value="E">E</option>
-                    <option value="F">F</option>
-                </select>
-            </div>
-            <div>
-                <label for="credits${i}">Credits:</label>
-                <input type="number" id="credits${i}" max="5" min="0" onchange="saveCookie('${i}')" placeholder="0-5">
-            </div>
-        </div>`;
-    container.appendChild(row);
-}
-loadSavedData(subjectCount);
+    for (let i = 1; i <= subjectCount; i++) {
+        const row = document.createElement("div");
+        row.classList.add("subject-row");
+        row.innerHTML = `
+            <div class="subject-title">Subject ${i}</div>
+            <div class="subject-inputs">
+                <div class="subject-field">
+                    <label for="grade${i}">Grade</label>
+                    <select id="grade${i}" onchange="saveCookie('${i}')">
+                        <option value="S">S</option>
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                        <option value="C">C</option>
+                        <option value="D">D</option>
+                        <option value="E">E</option>
+                        <option value="F">F</option>
+                    </select>
+                </div>
+                <div class="subject-field">
+                    <label for="credits${i}">Credits</label>
+                    <input type="number" id="credits${i}" max="5" min="0" onchange="saveCookie('${i}')" placeholder="0-5">
+                </div>
+            </div>`;
+        container.appendChild(row);
+    }
+    loadSavedData(subjectCount);
 }
 
 // Save grade and credit values in cookies

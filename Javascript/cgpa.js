@@ -1,4 +1,4 @@
- // Calculate CGPA
+// Calculate CGPA
 function calculateCGPA() {
     const semesterCount = parseInt(document.getElementById("semesterCount").value);
     if (isNaN(semesterCount) || semesterCount <= 0) {
@@ -31,8 +31,8 @@ function calculateCGPA() {
     document.getElementById("cgpa").innerText = "Your CGPA is: " + cgpa.toFixed(2);
 }
 
- // Function to set a cookie
- function setCookie(name, value, days) {
+// Function to set a cookie
+function setCookie(name, value, days) {
     const d = new Date();
     d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
     const expires = "expires=" + d.toUTCString();
@@ -82,18 +82,19 @@ function loadInputFields() {
 
     for (let i = 1; i <= semesterCount; i++) {
         const row = document.createElement("div");
-        row.classList.add("row");
+        row.classList.add("subject-row");
         row.innerHTML = `
-            <br><div><b>Semester ${i}</b></div><br>
-            <div style="display: flex; justify-content: center; align-items: center; gap: 1rem;">
-            <div>
-                <label for="sgpa${i}">SGPA:</label>
-                <input type="number" id="sgpa${i}" step="0.01" min="0" max="10" onchange="saveCookie('${i}')" placeholder="0-10">
-            </div>
-            <div>
-                <label for="credits${i}">Credits:</label>
-                <input type="number" id="credits${i}" max="50" min="0" onchange="saveCookie('${i}')" placeholder="0-50">
-            </div></div>`;
+            <div class="subject-title">Semester ${i}</div>
+            <div class="subject-inputs">
+                <div class="subject-field">
+                    <label for="sgpa${i}">SGPA</label>
+                    <input type="number" id="sgpa${i}" step="0.01" min="0" max="10" onchange="saveCookie('${i}')" placeholder="0-10">
+                </div>
+                <div class="subject-field">
+                    <label for="credits${i}">Credits</label>
+                    <input type="number" id="credits${i}" max="50" min="0" onchange="saveCookie('${i}')" placeholder="0-50">
+                </div>
+            </div>`;
         container.appendChild(row);
     }
     loadSavedData(semesterCount);

@@ -1,72 +1,111 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Attendance-Calc</title>
     <link rel=icon type="image/x-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAAAXNSR0IArs4c6QAAASBJREFUWEftmLFKA0EQhr8ftNdeSKOtkNa8jkEhD6G+gyAEfBt7i9QhnUh8g1hMOLg7ZE2yu2SEu3On25vZf/75Z5ZjV3TM1DE+9IOQmV0Bc2ACnDqr+A28AVNJyxD7l0JmNgLegXNnIiHcF3At6fOnYxehGfD8x2Qa+DtJVSda20XoEXioI54kVWs3M7OD+IWQm0IBUG4L29YXQnukKwrFZuofKBSTINXvdspSE8bihktoX2Ve3xtlk/9lXondWtY5QrFhDf25BWS3rBBqFMiV2is+u2Veicspiw2/m0KxRKn+QRC6B15SKz4yLumieAEsgLMjk8W2r4GxpI+DN9fKaWaXwCtwA5zEkDP9m/qx4VbSKtzbj+eYzIpdwzun0BZI1Zs0b+UWAgAAAABJRU5ErkJggg=="/>
-    <!-- <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'> -->
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
     <link rel="stylesheet" href="CSS/common.css">
+    <script src="Javascript/attendance.js"></script>
 </head>
 
-<script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
-<script src="Javascript/attendance.js"></script>
-
 <body>
-  <div class="header">
-    <h3 style="color: transparent;">_</h3>
-    <div class="header-left">
-        <div class="dropdown">
-          <button class="dropdown-btn button">☰</button>
-            <div class="dropdown-menu">
-                <a href="index.html">Home</a>
-                <a href="sgpa-calc.html">SGPA</a>
-                <a href="cgpa-calculator.html">CGPA</a>
-                <a href="pdf.html">PDF</a>
-            </div>
+    <div class="cursor-glow"></div>
+    <div class="header">
+        <div class="header-left">
+            <h3 style="color:white; font-weight: 500;">Attendance Calculator</h3>
         </div>
-    </div>
-      <!-- <h3 class="header-center">Attendance</h3> -->
-      <div class="header-right">
-      </div>
+        <div class="header-right">
+            <button onclick="resetCookies()">Reset</button>
+        </div>
     </div>
 
     <div class="container">
-    <!-- <a href="/Calculators/" style="text-decoration: none; color: #007bff; font-size: 16px; margin-left :-420px;">&larr;</a> -->
-    <center><p>
-    <strong><i><h2 class="pop1">Attendance&nbsp;Calculator
-        <span class="info-icon"><box-icon name='info-circle'></box-icon>
-            <span class="tooltip-text">
+        <h1 class="page-title">Attendance Calculator
+            <span class="info-icon"><box-icon name='info-circle'></box-icon>
+                <span class="tooltip-text">
                     This Calculator shows how many consecutive classes you can bunk from now till the given limit
+                </span>
             </span>
-        </span>
-    </h2></i></strong>
-    <!-- <a href="" terget="_blank"><button class="btn elon button2"><strong>Go</strong></button></a> -->
-    <!-- <form oninput="x.value=parseInt(a.value)+parseInt(b.value)"> -->
-      <!-- <input type="number" id="a" value="50"> -->
-      <!-- +<input type="number" id="b" value="25"> -->
-      <!-- =<output name="x" for="a b"></output> -->
-    <!-- </form> -->
-      <!-- <a href="/pranav.html"><button><strong><i>Pranav</i></strong></button></a> -->
-<!--         <form> -->
-        <div >
-          <label for='attendedClasses'>Classes attended : </label><input type="number" id="attendedClasses" required ><br><br>
-          <label for='totalClasses'>Total classes till now : <input type="number" id="totalClasses" required ><br><br>
-          <label for='totalClasses'>Percentage : <input type="number" id="percentage" required ><br><br>
+        </h1>
+
+        <div class="input-group">
+            <label for='attendedClasses'>Classes attended:</label>
+            <input type="number" id="attendedClasses" required inputmode="numeric">
         </div>
-        <br>
-        <div>
-          <button onclick="calculateAttendance()">Submit</button>
-<!--             <input type="submit" value="Submit"> -->
-          <!-- <input type="reset" value="Reset"> -->
+        
+        <div class="input-group">
+            <label for='totalClasses'>Total classes till now:</label>
+            <input type="number" id="totalClasses" required inputmode="numeric">
         </div>
-<!--         </form> -->
-        <p id="output"><strong>-~The answer comes here~-</strong></p>
-    </p>
-    </center>
-</div>
+        
+        <div class="input-group">
+            <label for='percentage'>Minimum Percentage:</label>
+            <input type="number" id="percentage" required inputmode="numeric">
+        </div>
+        
+        <button onclick="calculateAttendance()">Calculate</button>
+        <p id="output"><strong>Your result will appear here</strong></p>
+    </div>
     
+    <!-- Modern Navigation Bar -->
+    <div class="nav-container">
+        <a href="index.html" class="nav-item">Home</a>
+        <a href="sgpa-calc.html" class="nav-item">SGPA</a>
+        <a href="cgpa-calculator.html" class="nav-item">CGPA</a>
+        <a href="attendance-calculator.html" class="nav-item active">Attendance</a>
+        <a href="pdf.html" class="nav-item">PDF</a>
+    </div>
 
+    <script>
+        // Handle info icon for mobile devices
+        document.addEventListener('DOMContentLoaded', function() {
+            const infoIcon = document.querySelector('.info-icon');
+            
+            // For mobile devices
+            if (window.matchMedia('(hover: none)').matches) {
+                infoIcon.addEventListener('touchstart', function(e) {
+                    e.preventDefault();
+                    this.classList.toggle('active');
+                });
 
+                // Close tooltip when tapping outside
+                document.addEventListener('touchstart', function(e) {
+                    if (!infoIcon.contains(e.target)) {
+                        infoIcon.classList.remove('active');
+                    }
+                });
+            }
+            
+            // Handle active state for navigation
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    navItems.forEach(i => i.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+            
+            // Mouse cursor glow effect
+            const cursorGlow = document.querySelector('.cursor-glow');
+            
+            // Track mouse movement
+            document.addEventListener('mousemove', function(e) {
+                // Update CSS variables for the cursor position
+                cursorGlow.style.setProperty('--x', e.clientX + 'px');
+                cursorGlow.style.setProperty('--y', e.clientY + 'px');
+            });
+            
+            // For mobile - use touch position
+            document.addEventListener('touchmove', function(e) {
+                if (e.touches.length > 0) {
+                    // Update CSS variables based on the first touch point
+                    cursorGlow.style.setProperty('--x', e.touches[0].clientX + 'px');
+                    cursorGlow.style.setProperty('--y', e.touches[0].clientY + 'px');
+                }
+            });
+        });
+    </script>
 </body>
 </html>

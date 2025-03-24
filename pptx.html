@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merge PPTX to PDF</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pptxgenjs/3.7.1/pptxgen.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+</head>
+<body>
+    <div class="cursor-glow"></div>
+    <div id="container" style="margin: 0 auto; padding: 20px; max-width: 600px; text-align: center;">
+        <h1 class="page-title">PPTX to PDF Combiner</h1>
+        <input type="file" id="pptxInput" multiple accept=".pptx">
+        <button onclick="convertAndMerge()">Convert & Merge to PDF</button>
+        <p id="status"></p>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mouse cursor glow effect
+            const cursorGlow = document.querySelector('.cursor-glow');
+            
+            // Track mouse movement
+            document.addEventListener('mousemove', function(e) {
+                // Update CSS variables for the cursor position
+                cursorGlow.style.setProperty('--x', e.clientX + 'px');
+                cursorGlow.style.setProperty('--y', e.clientY + 'px');
+            });
+            
+            // For mobile - use touch position
+            document.addEventListener('touchmove', function(e) {
+                if (e.touches.length > 0) {
+                    // Update CSS variables based on the first touch point
+                    cursorGlow.style.setProperty('--x', e.touches[0].clientX + 'px');
+                    cursorGlow.style.setProperty('--y', e.touches[0].clientY + 'px');
+                }
+            });
+        });
+        
+        async function convertAndMerge() {
+            const input = document.getElementById("pptxInput");
+            const files = input.files;
+            if (files.length === 0) {
+                document.getElementById("status").textContent = "No files selected.";
+                return;
+            }
+
+            document.getElementById("status").textContent = "Processing files...";
+            const pdfDocs = [];
+
+            for (const file of files) {
+                const pdfBytes = await convertPptxToPdf(file);
+                if (pdfBytes) {
+                    pdfDocs.push(pdfBytes);
+                }
+            }
+
+            if (pdfDocs.length > 0) {
+                const mergedPdf = await mergePdfs(pdfDocs);
+                downloadPdf(mergedPdf, "Merged_Presentation.pdf");
+                document.getElementById("status").textContent = "Merge complete!";
+            } else {
+                document.getElementById("status").textContent = "Conversion failed.";
+            }
+        }
+
+        async function convertPptxToPdf(file) {
+            return new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.onload = async function(event) {
+                    const pptx = new PptxGenJS();
+                    pptx.load(reader.result);
+                    const pdfDoc = await PDFLib.PDFDocument.create();
+                    
+                    for (const slide of pptx.slides) {
+                        const imgData = await slide.getDataURL(); 
+                        const img = await pdfDoc.embedPng(imgData);
+                        const page = pdfDoc.addPage();
+                        const { width, height } = page.getSize();
+                        page.drawImage(img, {
+                            x: 0,
+                            y: 0,
+                            width: width,
+                            height: height
+                        });
+                    }
+                    const pdfBytes = await pdfDoc.save();
+                    resolve(pdfBytes);
+                };
+                reader.readAsArrayBuffer(file);
+            });
+        }
+
+        async function mergePdfs(pdfDocs) {
+            const mergedPdf = await PDFLib.PDFDocument.create();
+            for (const pdfBytes of pdfDocs) {
+                const pdf = await PDFLib.PDFDocument.load(pdfBytes);
+                const copiedPages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
+                copiedPages.forEach((page) => mergedPdf.addPage(page));
+            }
+            return await mergedPdf.save();
+        }
+
+        function downloadPdf(pdfBytes, fileName) {
+            const blob = new Blob([pdfBytes], { type: "application/pdf" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = fileName;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+    </script>
+</body>
+</html>

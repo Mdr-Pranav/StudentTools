@@ -2,49 +2,262 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <link rel=icon type="image/x-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAAAXNSR0IArs4c6QAAAbZJREFUWEft1zsvBUEUwPH/rXwCj1B4NEoSHYnCV1Dp9VpREFHcQuUDqDW+gFaCTqjQeCXiEb1EgXtk5mYyZnZmZ3blkp1mi53Hb8+ZzJxt0WOt1WMe/iVoEtgFPoFl4Con6rkRmgCOgUGFeAZmgetUVA7IxmhDFioVJGk6BAaU4k49R9XzBZhPSV8KyI7MAzCnIEfASE76yoJ8GDNCWagyoBBG7yFJWzIqFhSLyUbFgMpislAhUComGVUEysUkoXygqjClUS6QfejJpOPAbep1oMaNATfGHM7D0wb5roPQXou1ygVsth/XjL3QJSARsltdIFnnHJjWC9oLnQFTvww6BWZ8IMnzEtDXqW82DJgN7wcWgSFPrp6AfeDVem+mbBN462RkD7j3gczx5mATJBE8MGog3/4R1AJwYXTwzdntUrQ3fIN9aXXBTlTBpt/VAvqAbi0uYXc1ne53lf5aQcGvVPW1a1sEx6akLDhpAyo4DkJ7JRjdJmWh6P6pCMlJq/9IY2/z2H6PwLCrc1GE2sBq7Aol+20B62VBgl0DVgC5TKto8lO5A2z7JquqzqkC+z1HAwqF8guOaIQlieAikQAAAABJRU5ErkJggg=="/>
-    <title>Home Page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel=icon type="image/x-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAAAXNSR0IArs4c6QAAAbZJREFUWEft1zsvBUEUwPH/rXwCj1B4NEoSHYnCV1Dp9VpREFHcQuUDqDW+gFaCTqjQeCXiEb1EgXtk5mYyZnZmZ3blkp1mi53Hb8+ZzJxt0WOt1WMe/iVoEtgFPoFl4Con6rkRmgCOgUGFeAZmgetUVA7IxmhDFioVJGk6BAaU4k49R9XzBZhPSV8KyI7MAzCnIEfASE76yoJ8GDNCWagyoBBG7yFJWzIqFhSLyUbFgMpislAhUComGVUEysUkoXygqjClUS6QfejJpOPAbep1oMaNATfGHM7D0wb5roPQXou1ygVsth/XjL3QJSARsltdIFnnHJjWC9oLnQFTvww6BWZ8IMnzEtDXqW82DJgN7wcWgSFPrp6AfeDVem+mbBN462RkD7j3gczx5mATJBE8MGog3/4R1AJwYXTwzdntUrQ3fIN9aXXBTlTBpt/VAvqAbi0uYXc1ne53lf5aQcGvVPW1a1sEx6akLDhpAyo4DkJ7JRjdJmWh6P6pCMlJq/9IY2/z2H6PwLCrc1GE2sBq7Aol+20B62VBgl0DVgC5TKto8lO5A2z7JquqzqkC+z1HAwqF8guOaIQlieAikQAAAABJRU5ErkJggg=="/>
+    <title>Student Tools</title>
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
     <link rel="stylesheet" href="CSS/common.css">
+    <style>
+        body {
+            padding-top: 80px;
+        }
+        
+        main {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .page-title {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        
+        .welcome-text {
+            color: #b7c0ff;
+            font-size: 16px;
+            line-height: 1.6;
+            margin: 0 auto 30px;
+            text-align: center;
+            max-width: 600px;
+        }
+        
+        .tool-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            width: 100%;
+            margin: 0 auto;
+        }
+        
+        .tool-card {
+            background: rgba(30, 33, 58, 0.75);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: left;
+            border: 1px solid rgba(85, 95, 175, 0.15);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border-color: rgba(85, 95, 175, 0.3);
+        }
+        
+        .tool-card h3 {
+            color: #fff;
+            font-size: 20px;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .tool-card p {
+            color: #b7c0ff;
+            font-size: 14px;
+            line-height: 1.6;
+            margin: 0;
+        }
+        
+        .tool-card .btn {
+            margin: 0;
+            text-align: center;
+        }
+        
+        .tool-icon {
+            width: 24px;
+            height: 24px;
+            fill: #6d78ff;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding-top: 60px;
+            }
+            
+            .tool-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .welcome-text {
+                font-size: 14px;
+                margin-bottom: 20px;
+            }
+        }
+    </style>
 </head>
 
 <body>
+    <div class="cursor-glow"></div>
     <div class="header">
-        <h3 class="header-left" id="daysRemaining">
-            Loading...
-        </h3>
-        <!-- <h3 class="header-center" style="color:white"><b>HOME</b></h3> -->
-    </div>
-    <div class="container">
-        <h1>Student Tools</h1><br>
-        <center>
-        <div class="button-group">
-            <a href="sgpa-calc.html" class="btn">SGPA Calculator</a><br>
-            <a href="cgpa-calculator.html" class="btn">CGPA Calculator</a><br>
-            <a href="attendance-calculator.html" class="btn">Attendance Calculator</a><Br>
-            <a href="pdf.html" class="btn">PDF Combiner</a><br>
+        <div class="header-left">
+            <h3 style="color:white; font-weight: 500;">Student Tools</h3>
         </div>
-        </center>
+        <div class="header-right">
+            <h3 id="daysRemaining">Loading...</h3>
+        </div>
     </div>
+    
+    <main>
+        <h1 class="page-title">Welcome to Student Tools
+            <span class="info-icon"><box-icon name='info-circle'></box-icon>
+                <span class="tooltip-text">A collection of calculators and tools for students</span>
+            </span>
+        </h1>
+        <p class="welcome-text">A collection of essential tools designed to help students manage their academic journey more efficiently.</p>
+        
+        <div class="tool-cards">
+            <div class="tool-card">
+                <h3><box-icon name='calculator' class="tool-icon"></box-icon>SGPA Calculator
+                    <span class="info-icon"><box-icon name='info-circle'></box-icon>
+                        <span class="tooltip-text">Calculate your Semester Grade Point Average</span>
+                    </span>
+                </h3>
+                <p>Calculate your Semester Grade Point Average (SGPA) easily. Input your grades and credits for each subject to get your semester performance.</p>
+                <a href="sgpa-calc.html" class="btn">Calculate SGPA</a>
+            </div>
+            
+            <div class="tool-card">
+                <h3><box-icon name='line-chart' class="tool-icon"></box-icon>CGPA Calculator
+                    <span class="info-icon"><box-icon name='info-circle'></box-icon>
+                        <span class="tooltip-text">Calculate your Cumulative Grade Point Average</span>
+                    </span>
+                </h3>
+                <p>Track your overall academic performance by calculating your Cumulative Grade Point Average (CGPA) across multiple semesters.</p>
+                <a href="cgpa-calculator.html" class="btn">Calculate CGPA</a>
+            </div>
+            
+            <div class="tool-card">
+                <h3><box-icon name='time' class="tool-icon"></box-icon>Attendance Calculator
+                    <span class="info-icon"><box-icon name='info-circle'></box-icon>
+                        <span class="tooltip-text">Track and calculate your attendance percentage</span>
+                    </span>
+                </h3>
+                <p>Stay on top of your attendance requirements. Find out how many classes you can miss while maintaining your minimum attendance percentage.</p>
+                <a href="attendance-calculator.html" class="btn">Check Attendance</a>
+            </div>
+            
+            <div class="tool-card">
+                <h3><box-icon name='file' class="tool-icon"></box-icon>PDF Combiner
+                    <span class="info-icon"><box-icon name='info-circle'></box-icon>
+                        <span class="tooltip-text">Merge multiple PDF files into one</span>
+                    </span>
+                </h3>
+                <p>Merge multiple PDF files into a single document. Perfect for combining assignments, notes, or study materials.</p>
+                <a href="pdf.html" class="btn">Combine PDFs</a>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Modern Navigation Bar -->
+    <div class="nav-container">
+        <a href="index.html" class="nav-item active">Home</a>
+        <a href="sgpa-calc.html" class="nav-item">SGPA</a>
+        <a href="cgpa-calculator.html" class="nav-item">CGPA</a>
+        <a href="attendance-calculator.html" class="nav-item">Attendance</a>
+        <a href="pdf.html" class="nav-item">PDF</a>
+    </div>
+
+    <script>
+        // Touch event handler and days calculation
+        document.addEventListener('DOMContentLoaded', function() {
+            calculateRemainingDays();
+            
+            // Add touch effects for mobile
+            const cards = document.querySelectorAll('.tool-card');
+            cards.forEach(card => {
+                card.addEventListener('touchstart', function() {
+                    this.style.transform = 'translateY(-5px)';
+                    this.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.3)';
+                });
+                
+                card.addEventListener('touchend', function() {
+                    this.style.transform = '';
+                    this.style.boxShadow = '';
+                });
+            });
+            
+            // Handle active state for navigation
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    navItems.forEach(i => i.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+            
+            // Handle info icon tooltips for all pages
+            const infoIcons = document.querySelectorAll('.info-icon');
+            
+            infoIcons.forEach(icon => {
+                // For mobile devices
+                if (window.matchMedia('(hover: none)').matches) {
+                    icon.addEventListener('touchstart', function(e) {
+                        e.preventDefault();
+                        this.classList.toggle('active');
+                    });
+                }
+            });
+            
+            // Close tooltip when tapping outside
+            document.addEventListener('touchstart', function(e) {
+                const infoIcons = document.querySelectorAll('.info-icon');
+                infoIcons.forEach(icon => {
+                    if (!icon.contains(e.target)) {
+                        icon.classList.remove('active');
+                    }
+                });
+            });
+            
+            // Mouse cursor glow effect
+            const cursorGlow = document.querySelector('.cursor-glow');
+            
+            // Track mouse movement
+            document.addEventListener('mousemove', function(e) {
+                // Update CSS variables for the cursor position
+                cursorGlow.style.setProperty('--x', e.clientX + 'px');
+                cursorGlow.style.setProperty('--y', e.clientY + 'px');
+            });
+            
+            // For mobile - use touch position
+            document.addEventListener('touchmove', function(e) {
+                if (e.touches.length > 0) {
+                    // Update CSS variables based on the first touch point
+                    cursorGlow.style.setProperty('--x', e.touches[0].clientX + 'px');
+                    cursorGlow.style.setProperty('--y', e.touches[0].clientY + 'px');
+                }
+            });
+        });
+        
+        function calculateRemainingDays() {
+            const today = new Date();
+            const endOfYear = new Date(today.getFullYear(), 11, 31); // December 31st
+            
+            // Ensure only the date part is compared (remove time component)
+            const todayDateOnly = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+            
+            const timeDifference = endOfYear.getTime() - todayDateOnly.getTime();
+            const remainingDays = Math.ceil(timeDifference / (1000 * 60 * 60 * 24)); // Convert ms to days
+
+            document.getElementById("daysRemaining").textContent = 
+                `📅 ${remainingDays} Days Left`;
+        }
+    </script>
 </body>
-
-<script>
-    function calculateRemainingDays() {
-        const today = new Date();
-        const endOfYear = new Date(today.getFullYear(), 11, 31); // December 31st
-        
-        // Ensure only the date part is compared (remove time component)
-        const todayDateOnly = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-        
-        const timeDifference = endOfYear.getTime() - todayDateOnly.getTime();
-        const remainingDays = Math.ceil(timeDifference / (1000 * 60 * 60 * 24)); // Convert ms to days
-
-        document.getElementById("daysRemaining").textContent = 
-            `📅 ${remainingDays} Days Left`;
-    }
-
-    // Run on page load
-    calculateRemainingDays();
-</script>
-
 </html>

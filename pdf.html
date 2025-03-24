@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>PDF-Combiner</title>
     <link rel=icon type="image/x-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAAAXNSR0IArs4c6QAAASBJREFUWEftmLFKA0EQhr8ftNdeSKOtkNa8jkEhD6G+gyAEfBt7i9QhnUh8g1hMOLg7ZE2yu2SEu3On25vZf/75Z5ZjV3TM1DE+9IOQmV0Bc2ACnDqr+A28AVNJyxD7l0JmNgLegXNnIiHcF3At6fOnYxehGfD8x2Qa+DtJVSda20XoEXioI54kVWs3M7OD+IWQm0IBUG4L29YXQnukKwrFZuofKBSTINXvdspSE8bihktoX2Ve3xtlk/9lXondWtY5QrFhDf25BWS3rBBqFMiV2is+u2Veicspiw2/m0KxRKn+QRC6B15SKz4yLumieAEsgLMjk8W2r4GxpI+DN9fKaWaXwCtwA5zEkDP9m/qx4VbSKtzbj+eYzIpdwzun0BZI1Zs0b+UWAgAAAABJRU5ErkJggg=="/>
     <!-- <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'> -->
@@ -10,36 +10,72 @@
 </head>
 
 <body>
+    <div class="cursor-glow"></div>
     <div class="header">
-        <h3 style="color: transparent;">_</h3>
         <div class="header-left">
-            <div class="dropdown">
-                <button class="dropdown-btn button">☰</button>
-                <div class="dropdown-menu">
-                    <a href="index.html">Home</a>
-                    <a href="sgpa-calc.html">SGPA</a>
-                    <a href="cgpa-calculator.html">CGPA</a>
-                    <a href="attendance-calculator.html">Attendance</a>
-                </div>
-            </div>
+            <h3 style="color:white; font-weight: 500;">PDF Combiner</h3>
         </div>
     </div>
     
     <div class="container">
-        <Center><h1>PDF Combiner</h1>
-        <div style="position:relative;left:30px"><input type="file" id="fileInput" multiple accept="application/pdf"></div><br><br>
-        <input type="text" id="fileName" placeholder="Enter file name"><br><Br>
-        <button onclick="combinePDFs()">Combine PDFs</button><br><Br>
-        <div id="output"></div>
-        </Center>
+        <h1 class="page-title">PDF Combiner</h1>
+        
+        <div class="input-group">
+            <label for="fileInput">Select PDFs:</label>
+            <input type="file" id="fileInput" multiple accept="application/pdf">
+        </div>
+        
+        <div class="input-group">
+            <label for="fileName">Output Filename:</label>
+            <input type="text" id="fileName" placeholder="Enter file name">
+        </div>
+        
+        <button onclick="combinePDFs()">Combine PDFs</button>
+        
+        <div id="output" style="margin-top: 20px;"></div>
+    </div>
+
+    <!-- Modern Navigation Bar -->
+    <div class="nav-container">
+        <a href="index.html" class="nav-item">Home</a>
+        <a href="sgpa-calc.html" class="nav-item">SGPA</a>
+        <a href="cgpa-calculator.html" class="nav-item">CGPA</a>
+        <a href="attendance-calculator.html" class="nav-item">Attendance</a>
+        <a href="pdf.html" class="nav-item active">PDF</a>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
     <script>
-        function toggleMenu() {
-            const menu = document.getElementById("dropdownMenu");
-            menu.style.display = menu.style.display === "flex" ? "none" : "flex";
-        }
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mouse cursor glow effect
+            const cursorGlow = document.querySelector('.cursor-glow');
+            
+            // Track mouse movement
+            document.addEventListener('mousemove', function(e) {
+                // Update CSS variables for the cursor position
+                cursorGlow.style.setProperty('--x', e.clientX + 'px');
+                cursorGlow.style.setProperty('--y', e.clientY + 'px');
+            });
+            
+            // For mobile - use touch position
+            document.addEventListener('touchmove', function(e) {
+                if (e.touches.length > 0) {
+                    // Update CSS variables based on the first touch point
+                    cursorGlow.style.setProperty('--x', e.touches[0].clientX + 'px');
+                    cursorGlow.style.setProperty('--y', e.touches[0].clientY + 'px');
+                }
+            });
+            
+            // Handle active state for navigation
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    navItems.forEach(i => i.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+        });
+        
         async function combinePDFs() {
             const input = document.getElementById("fileInput");
             const fileNameInput = document.getElementById("fileName");
@@ -51,28 +87,37 @@
                 return;
             }
 
-            const pdfDoc = await PDFLib.PDFDocument.create();
-            for (const file of files) {
-                const arrayBuffer = await file.arrayBuffer();
-                const loadedPdf = await PDFLib.PDFDocument.load(arrayBuffer);
-                const copiedPages = await pdfDoc.copyPages(loadedPdf, loadedPdf.getPageIndices());
-                copiedPages.forEach((page) => pdfDoc.addPage(page));
+            // Show loading message
+            document.getElementById("output").textContent = "Processing... Please wait.";
+
+            try {
+                const pdfDoc = await PDFLib.PDFDocument.create();
+                for (const file of files) {
+                    const arrayBuffer = await file.arrayBuffer();
+                    const loadedPdf = await PDFLib.PDFDocument.load(arrayBuffer);
+                    const copiedPages = await pdfDoc.copyPages(loadedPdf, loadedPdf.getPageIndices());
+                    copiedPages.forEach((page) => pdfDoc.addPage(page));
+                }
+
+                const mergedPdf = await pdfDoc.save();
+
+                const blob = new Blob([mergedPdf], { type: "application/pdf" });
+                const url = URL.createObjectURL(blob);
+
+                const a = document.createElement("a");
+                a.href = url;
+                a.download = `${fileName}.pdf`;
+                a.textContent = `Download ${fileName}.pdf`;
+                a.className = "btn";
+                a.style.display = "inline-block";
+                a.style.margin = "20px 0";
+
+                const outputDiv = document.getElementById("output");
+                outputDiv.textContent = "";
+                outputDiv.appendChild(a);
+            } catch (error) {
+                document.getElementById("output").textContent = "Error: " + error.message;
             }
-
-            const mergedPdf = await pdfDoc.save();
-
-            const blob = new Blob([mergedPdf], { type: "application/pdf" });
-            const url = URL.createObjectURL(blob);
-
-
-            const a = document.createElement("a");
-            a.href = url;
-            a.download = `${fileName}.pdf`;
-            a.textContent = `Download ${fileName}.pdf`;
-
-            const outputDiv = document.getElementById("output");
-            outputDiv.textContent = "";
-            outputDiv.appendChild(a);
         }
     </script>
 </body>

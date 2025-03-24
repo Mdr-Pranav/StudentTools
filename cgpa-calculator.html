@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>CGPA Calculator</title>
     <link rel=icon type="image/x-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAAAXNSR0IArs4c6QAAASBJREFUWEftmLFKA0EQhr8ftNdeSKOtkNa8jkEhD6G+gyAEfBt7i9QhnUh8g1hMOLg7ZE2yu2SEu3On25vZf/75Z5ZjV3TM1DE+9IOQmV0Bc2ACnDqr+A28AVNJyxD7l0JmNgLegXNnIiHcF3At6fOnYxehGfD8x2Qa+DtJVSda20XoEXioI54kVWs3M7OD+IWQm0IBUG4L29YXQnukKwrFZuofKBSTINXvdspSE8bihktoX2Ve3xtlk/9lXondWtY5QrFhDf25BWS3rBBqFMiV2is+u2Veicspiw2/m0KxRKn+QRC6B15SKz4yLumieAEsgLMjk8W2r4GxpI+DN9fKaWaXwCtwA5zEkDP9m/qx4VbSKtzbj+eYzIpdwzun0BZI1Zs0b+UWAgAAAABJRU5ErkJggg=="/>
 
@@ -13,18 +13,10 @@
 </head>
 
 <body>
+    <div class="cursor-glow"></div>
     <div class="header">
-        <h3 style="color: transparent;">_</h3>
         <div class="header-left">
-            <div class="dropdown">
-                <button class="dropdown-btn button">☰</button>
-                <div class="dropdown-menu">
-                    <a href="index.html">Home</a>
-                    <a href="sgpa-calc.html">SGPA</a>
-                    <a href="pdf.html">PDF</a>
-                    <a href="attendance-calculator.html">Attendance</a>
-                </div>
-            </div>
+            <h3 style="color:white; font-weight: 500;">CGPA Calculator</h3>
         </div>
         <div class="header-right">
             <button onclick="resetCookies()">Reset</button>
@@ -32,7 +24,7 @@
     </div>
     
     <div class="container">
-        <h1>CGPA
+        <h1 class="page-title">CGPA
         <span class="info-icon"><box-icon name='info-circle'></box-icon>
             <span class="tooltip-text">Enter SGPA and credits for each semester.</span>
         </span>
@@ -40,16 +32,75 @@
 
         <div class="input-group">
             <label for="semesterCount">Number of Semesters:</label>
-            <input type="number" id="semesterCount" min="1" max="10" placeholder="1-10">
+            <input type="number" id="semesterCount" min="1" max="10" placeholder="1-10" inputmode="numeric">
         </div>
 
-        <center>
-        <button onclick="loadInputFields()">Submit</button> 
-        <div id="inputContainer"></div><br>
-        <button onclick="calculateCGPA()">Calculate CGPA</button>
-        <p id="cgpa"></p>
-        </center>
+        <div class="button-container">
+            <button onclick="loadInputFields()">Submit</button>
+            <div id="inputContainer"></div>
+            <button onclick="calculateCGPA()">Calculate CGPA</button>
+            <p id="cgpa"></p>
+        </div>
     </div>
+
+    <!-- Modern Navigation Bar -->
+    <div class="nav-container">
+        <a href="index.html" class="nav-item">Home</a>
+        <a href="sgpa-calc.html" class="nav-item">SGPA</a>
+        <a href="cgpa-calculator.html" class="nav-item active">CGPA</a>
+        <a href="attendance-calculator.html" class="nav-item">Attendance</a>
+        <a href="pdf.html" class="nav-item">PDF</a>
+    </div>
+
+    <script>
+        // Handle info icon for mobile devices
+        document.addEventListener('DOMContentLoaded', function() {
+            const infoIcon = document.querySelector('.info-icon');
+            
+            // For mobile devices
+            if (window.matchMedia('(hover: none)').matches) {
+                infoIcon.addEventListener('touchstart', function(e) {
+                    e.preventDefault();
+                    this.classList.toggle('active');
+                });
+
+                // Close tooltip when tapping outside
+                document.addEventListener('touchstart', function(e) {
+                    if (!infoIcon.contains(e.target)) {
+                        infoIcon.classList.remove('active');
+                    }
+                });
+            }
+            
+            // Handle active state for navigation
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    navItems.forEach(i => i.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+            
+            // Mouse cursor glow effect
+            const cursorGlow = document.querySelector('.cursor-glow');
+            
+            // Track mouse movement
+            document.addEventListener('mousemove', function(e) {
+                // Update CSS variables for the cursor position
+                cursorGlow.style.setProperty('--x', e.clientX + 'px');
+                cursorGlow.style.setProperty('--y', e.clientY + 'px');
+            });
+            
+            // For mobile - use touch position
+            document.addEventListener('touchmove', function(e) {
+                if (e.touches.length > 0) {
+                    // Update CSS variables based on the first touch point
+                    cursorGlow.style.setProperty('--x', e.touches[0].clientX + 'px');
+                    cursorGlow.style.setProperty('--y', e.touches[0].clientY + 'px');
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>
